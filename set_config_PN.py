@@ -28,7 +28,7 @@ def config():
         trainer["gpus"] = [4]
         trainer["sync_batchnorm"] = False
     num_gpus = trainer["gpus"] if isinstance(trainer["gpus"], int) else len(trainer["gpus"])
-    trainer["fast_dev_run"] = True
+    trainer["fast_dev_run"] = False
     log_dir = "../results/"
     exp_name = "ProtoNet"
     trainer["logger"] = {"class_path":"pytorch_lightning.loggers.TensorBoardLogger",
