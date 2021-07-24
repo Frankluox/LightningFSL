@@ -12,9 +12,9 @@ class FewShotDataModule(LightningDataModule):
         dataset_name: The name of the dataset construction class.
         data_root: Root directory path of data.
         is_meta: whether implementing meta-learning during training.
-        per_gpu_train_batchsize: The batch size of training per GPU.
-        per_gpu_val_batchsize: The batch size of validation per GPU.
-        per_gpu_test_batchsize: The batch size of testing per GPU.
+        train_batchsize: The batch size of training.
+        val_batchsize: The batch size of validation.
+        test_batchsize: The batch size of testing.
         train_num_workers: The number of workers during training.
         val_num_workers: The number of workers during validation and testing.
         is_DDP: Whether launch DDP mode for multi-GPU training.
@@ -40,9 +40,9 @@ class FewShotDataModule(LightningDataModule):
         dataset_name: str = "miniImageNet",
         data_root: str = '',
         is_meta: bool = False,
-        per_gpu_train_batchsize: int = 32,
-        per_gpu_val_batchsize: int = 4,
-        per_gpu_test_batchsize: int = 4,
+        train_batchsize: int = 32,
+        val_batchsize: int = 4,
+        test_batchsize: int = 4,
         train_num_workers: int = 8,
         val_num_workers: int = 8,
         is_DDP: bool = False,
@@ -62,9 +62,9 @@ class FewShotDataModule(LightningDataModule):
         self.train_num_workers = train_num_workers
         self.val_num_workers = val_num_workers
         self.is_DDP = is_DDP
-        self.train_batch_size = per_gpu_train_batchsize
-        self.val_batch_size = per_gpu_val_batchsize
-        self.test_batch_size = per_gpu_test_batchsize
+        self.train_batch_size = train_batchsize
+        self.val_batch_size = val_batchsize
+        self.test_batch_size = test_batchsize
         self.is_meta = is_meta
         self.train_sampler = None
         self.train_batch_sampler = None

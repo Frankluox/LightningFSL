@@ -43,6 +43,9 @@ class tieredImageNet(ImageFolder):
                 transforms.Normalize(np.array([0.4783, 0.4564, 0.4101]),
                                     np.array([0.2634, 0.2577, 0.2709]))])
 
+        super().__init__(IMAGE_PATH, transform)
+        self.label = self.targets
+
 
 def return_class():
     return tieredImageNet

@@ -81,12 +81,14 @@ class ProtoNet(BaseFewShotModule):
             way: The number of classes within one task.
             shot: The number of samples within each few-shot support class. 
         """
+        # import pdb
+        # pdb.set_trace()
         num_support_samples = way * shot
         data, _ = batch
-        data = data.reshape(batch_size, -1)
+        data = data.reshape([batch_size, -1] + list(data.shape[-3:]))
         data_support = data[:, :num_support_samples]
         data_query = data[:, num_support_samples:]
-        logits = PN_head(data_query, data_support, way, shot)
+        logits = self.classifier(data_query, data_support, way, shot)
         return logits
 
     def train_forward(self, batch, batch_size, way, shot):

@@ -1,6 +1,9 @@
 from pytorch_lightning.utilities.cli import LightningCLI, LightningArgumentParser
+from pytorch_lightning.trainer.trainer import Trainer
 from modules import get_module, BaseFewShotModule
 from dataset_and_process import FewShotDataModule
+from pytorch_lightning.core.lightning import LightningModule
+from callbacks import RefinedSaverCallback
 class Few_Shot_CLI(LightningCLI):
     def __init__(self,**kwargs) -> None:
         """Add two config parameters:
@@ -28,7 +31,10 @@ class Few_Shot_CLI(LightningCLI):
     def parse_arguments(self) -> None:
         """Parses command line arguments and stores it in self.config"""
         self.config = self.parser.parse_args(_skip_check = True)
-    
+    def on_train_start(self, trainer: Trainer, pl_module: LightningModule) -> None:
+        log_dir = trainer.log_dir or trainer.default_root_dir
+        config_path = os.path.join(log_dir, self.config_filename)
+        self.parser.save(self.config, config_path, skip_none=False, skip_check=True)
     def before_instantiate_classes(self) -> None:
         self.model_class = get_module(self.config["model_name"])
         self.is_test = self.config["is_test"]
@@ -50,5 +56,6 @@ if __name__ == '__main__':
     cli = Few_Shot_CLI(
         model_class= BaseFewShotModule, 
         datamodule_class = FewShotDataModule, 
-        seed_everything_default=1234
+        seed_everything_default=1234,
+        save_config_callback = RefinedSaverCallback
     )

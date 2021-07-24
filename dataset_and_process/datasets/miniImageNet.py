@@ -45,6 +45,7 @@ class miniImageNet(ImageFolder):
                 transforms.Normalize(np.array([0.4712, 0.4499, 0.4031]),
                                         np.array([0.2726, 0.2634, 0.2794]))])
         super().__init__(IMAGE_PATH, transform)
+        self.label = self.targets
 
 
 

@@ -27,8 +27,8 @@ def config():
         trainer["accelerator"] = None
         trainer["gpus"] = [4]
         trainer["sync_batchnorm"] = False
-
-    trainer["fast_dev_run"] = False
+    num_gpus = trainer["gpus"] if isinstance(trainer["gpus"], int) else len(trainer["gpus"])
+    trainer["fast_dev_run"] = True
     log_dir = "../results/"
     exp_name = "ProtoNet"
     trainer["logger"] = {"class_path":"pytorch_lightning.loggers.TensorBoardLogger",
@@ -55,14 +55,14 @@ def config():
 
     #important
     data["dataset_name"] = "miniImageNet"
-    data["data_root"] = ""
+    data["data_root"] = "../BF3S-master/data/mini_imagenet_split/images"
     data["is_meta"] = True
     
     
     #less important
-    data["per_gpu_train_batchsize"] = per_gpu_train_batchsize
-    data["per_gpu_val_batchsize"] = per_gpu_val_batchsize
-    data["per_gpu_test_batchsize"] = per_gpu_test_batchsize
+    data["train_batchsize"] = num_gpus*per_gpu_train_batchsize
+    data["val_batchsize"] = num_gpus*per_gpu_val_batchsize
+    data["test_batchsize"] = num_gpus*per_gpu_test_batchsize
     data["test_shot"] = test_shot
     data["train_shot"] = train_shot
     data["train_num_workers"] = 4

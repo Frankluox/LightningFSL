@@ -45,13 +45,13 @@ class CategoriesSampler(Sampler[T_co]):
             self.num_replicas = dist.get_world_size()
             assert self.total_batch_size % self.num_replicas == 0
             self.repeat_time = self.total_batch_size//self.num_replicas
-            if self.drop_last and self.num_task % self.total_batch_size != 0:
-                self.num_iteration = math.ceil(
-                    (self.num_task - self.total_batch_size) / self.total_batch_size  # type: ignore
-                )
-            else:
-                self.num_iteration = math.ceil(self.num_task / self.total_batch_size)
-        
+        if self.drop_last and self.num_task % self.total_batch_size != 0:
+            self.num_iteration = math.ceil(
+                (self.num_task - self.total_batch_size) / self.total_batch_size  # type: ignore
+            )
+        else:
+            self.num_iteration = math.ceil(self.num_task / self.total_batch_size)
+    
 
         labels = np.array(labels)#all data labels
         self.m_ind = []#the data index of each class
@@ -74,7 +74,9 @@ class CategoriesSampler(Sampler[T_co]):
                     pos = torch.randperm(len(l))[:self.total_sample_per_class] #sample total_sample_per_class data index of this class
                     task.append(l[pos])
                 tasks.append(torch.stack(task).reshape(-1))
-            tasks = torch.stack(task).reshape(-1)
+            tasks = torch.stack(tasks).reshape(-1)
+            # print(self.repeat_time)
+            # print(tasks.shape)
             yield tasks
 
 

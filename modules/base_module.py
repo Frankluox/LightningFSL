@@ -3,6 +3,7 @@ from . import utils
 from architectures import get_backbone
 from typing import Tuple, List, Optional, Union
 import torch
+import torch.nn.functional as F
 class BaseFewShotModule(LightningModule):
     r"""Template for all few-shot learning models.
 
@@ -98,11 +99,17 @@ class BaseFewShotModule(LightningModule):
         foward_function = getattr(self, f"{flag}_forward")
         batch_size_per_gpu = getattr(self.hparams, f"{mode}_batch_size_per_gpu")
         shot = getattr(self.hparams, f"{mode}_shot")
-
+        # label
+        # print(batch[0].shape)
         logits = foward_function(batch, batch_size_per_gpu,self.hparams.way, shot)
-        loss = F.cross_entropy(logits, self.label)
+        # import pdb
+        # pdb.set_trace()
+        label = torch.unsqueeze(self.label, 0).repeat(batch_size_per_gpu, 1).reshape(-1).to(logits.device)
+        logits = logits.reshape(label.size(0),-1)
+        
+        loss = F.cross_entropy(logits, label)
         log_loss = getattr(self, f"{mode}_loss")(loss)
-        accuracy = getattr(self, f"{mode}_acc")(logits, self.label)
+        accuracy = getattr(self, f"{mode}_acc")(logits, label)
         self.log(f"{mode}/loss", log_loss)
         self.log(f"{mode}/acc", accuracy)
         return loss

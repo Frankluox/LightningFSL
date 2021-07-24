@@ -1,50 +1,105 @@
-data:
-  data_root: ''
-  dataset_name: miniImageNet
-  drop_last: false
-  is_DDP: false
-  is_meta: true
-  num_query: 15
-  per_gpu_test_batchsize: 8
-  per_gpu_train_batchsize: 2
-  per_gpu_val_batchsize: 8
-  test_num_task: 1200
-  test_shot: 5
-  train_num_task_per_epoch: 1000
-  train_num_workers: 4
-  train_shot: 5
-  val_num_task: 1200
-  val_num_workers: 4
-  val_shot: 5
-  way: 5
-is_test: false
-model:
-  backbone_name: resnet12
-  decay_scheduler: cosine
-  lr: 0.05
-  metric: cosine
-  num_query: 15
-  optim_type: sgd
-  scale_cls: 10.0
-  test_batch_size_per_gpu: 8
-  test_shot: 5
-  train_batch_size_per_gpu: 2
-  train_shot: 5
-  val_batch_size_per_gpu: 8
-  val_shot: 5
-  way: 5
-  weight_decay: 0.0005
-model_name: PN
+seed_everything: 1234
 trainer:
-  accelerator: null
-  fast_dev_run: false
-  gpus:
-  - 4
   logger:
     class_path: pytorch_lightning.loggers.TensorBoardLogger
     init_args:
       name: ProtoNet
       save_dir: ../results/
+      version: null
+      log_graph: false
+      default_hp_metric: true
+      prefix: ''
+  checkpoint_callback: true
+  callbacks: null
+  default_root_dir: null
+  gradient_clip_val: 0.0
+  gradient_clip_algorithm: norm
+  process_position: 0
+  num_nodes: 1
+  num_processes: 1
+  gpus:
+  - 4
+  auto_select_gpus: false
+  tpu_cores: null
+  log_gpu_memory: null
+  progress_bar_refresh_rate: null
+  overfit_batches: 0.0
+  track_grad_norm: -1
+  check_val_every_n_epoch: 1
+  fast_dev_run: true
+  accumulate_grad_batches: 1
   max_epochs: 60
-  replace_sampler_ddp: false
+  min_epochs: null
+  max_steps: null
+  min_steps: null
+  max_time: null
+  limit_train_batches: 1.0
+  limit_val_batches: 1.0
+  limit_test_batches: 1.0
+  limit_predict_batches: 1.0
+  val_check_interval: 1.0
+  flush_logs_every_n_steps: 100
+  log_every_n_steps: 50
+  accelerator: null
   sync_batchnorm: false
+  precision: 32
+  weights_summary: top
+  weights_save_path: null
+  num_sanity_val_steps: 2
+  truncated_bptt_steps: null
+  resume_from_checkpoint: null
+  profiler: null
+  benchmark: false
+  deterministic: false
+  reload_dataloaders_every_epoch: false
+  auto_lr_find: false
+  replace_sampler_ddp: false
+  terminate_on_nan: false
+  auto_scale_batch_size: false
+  prepare_data_per_node: true
+  plugins: null
+  amp_backend: native
+  amp_level: O2
+  distributed_backend: null
+  move_metrics_to_cpu: false
+  multiple_trainloader_mode: max_size_cycle
+  stochastic_weight_avg: false
+model:
+  backbone_name: resnet12
+  way: 5
+  train_shot: 5
+  val_shot: 5
+  test_shot: 5
+  num_query: 15
+  train_batch_size_per_gpu: 2
+  val_batch_size_per_gpu: 8
+  test_batch_size_per_gpu: 8
+  lr: 0.05
+  weight_decay: 0.0005
+  decay_scheduler: cosine
+  optim_type: sgd
+  decay_epochs: null
+  decay_power: null
+  metric: cosine
+  scale_cls: 10.0
+data:
+  dataset_name: miniImageNet
+  data_root: ../BF3S-master/data/mini_imagenet_split/images
+  is_meta: true
+  train_batchsize: 2
+  val_batchsize: 8
+  test_batchsize: 8
+  train_num_workers: 4
+  val_num_workers: 4
+  is_DDP: false
+  train_num_task_per_epoch: 1000
+  val_num_task: 1200
+  test_num_task: 1200
+  way: 5
+  train_shot: 5
+  val_shot: 5
+  test_shot: 5
+  num_query: 15
+  drop_last: false
+is_test: false
+model_name: PN
