@@ -39,6 +39,7 @@ class CategoriesSampler(Sampler[T_co]):
         self.drop_last = drop_last
         self.total_batch_size = total_batch_size
         self.repeat_time = self.total_batch_size
+
         if self.is_DDP:
             if not dist.is_available():
                 raise RuntimeError("Requires distributed package to be available")
@@ -64,6 +65,7 @@ class CategoriesSampler(Sampler[T_co]):
         return self.num_iteration
     
     def __iter__(self) -> Iterator[T_co]:
+        # print(self.num_iteration)
         for _ in range(self.num_iteration):
             tasks = []
             for _ in range(self.repeat_time):

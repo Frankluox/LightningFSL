@@ -65,8 +65,8 @@ def config():
     data["test_batchsize"] = num_gpus*per_gpu_test_batchsize
     data["test_shot"] = test_shot
     data["train_shot"] = train_shot
-    data["train_num_workers"] = 4
-    data["val_num_workers"] = 4
+    data["train_num_workers"] = 8
+    data["val_num_workers"] = 8
     data["is_DDP"] = True if multi_gpu else False
     data["train_num_task_per_epoch"] = 1000
     data["val_num_task"] = 1200
