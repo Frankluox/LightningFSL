@@ -1,0 +1,50 @@
+data:
+  data_root: ''
+  dataset_name: miniImageNet
+  drop_last: false
+  is_DDP: false
+  is_meta: true
+  num_query: 15
+  per_gpu_test_batchsize: 8
+  per_gpu_train_batchsize: 2
+  per_gpu_val_batchsize: 8
+  test_num_task: 1200
+  test_shot: 5
+  train_num_task_per_epoch: 1000
+  train_num_workers: 4
+  train_shot: 5
+  val_num_task: 1200
+  val_num_workers: 4
+  val_shot: 5
+  way: 5
+is_test: false
+model:
+  backbone_name: resnet12
+  decay_scheduler: cosine
+  lr: 0.05
+  metric: cosine
+  num_query: 15
+  optim_type: sgd
+  scale_cls: 10.0
+  test_batch_size_per_gpu: 8
+  test_shot: 5
+  train_batch_size_per_gpu: 2
+  train_shot: 5
+  val_batch_size_per_gpu: 8
+  val_shot: 5
+  way: 5
+  weight_decay: 0.0005
+model_name: PN
+trainer:
+  accelerator: null
+  fast_dev_run: false
+  gpus:
+  - 4
+  logger:
+    class_path: pytorch_lightning.loggers.TensorBoardLogger
+    init_args:
+      name: ProtoNet
+      save_dir: ../results/
+  max_epochs: 60
+  replace_sampler_ddp: false
+  sync_batchnorm: false
