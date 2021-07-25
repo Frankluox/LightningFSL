@@ -1,5 +1,5 @@
-# A Framework for Few-Shot Learning
-A friendly framework for Few-Shot Learning base on pytorch-lightning.
+# Few-Shot Learning in Pytorch-Lightning
+A friendly codebase for Few-Shot Learning based on pytorch-lightning.
 
 
 ## Usage:
