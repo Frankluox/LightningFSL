@@ -8,10 +8,19 @@ ex = Experiment("ProtoNet", save_git_info=False)
 def config():
     config_dict = {}
 
+    #if training, set to False
     config_dict["is_test"] = False
-    config_dict["num_test"] = 2
+    if config_dict["is_test"]:
+        #if testing, specify the total rounds of testing. Default: 5
+        config_dict["num_test"] = 5
+        #specify pretrained path for testing.
+        config_dict["pre_trained_path"] = "../results/ProtoNet/version_11/checkpoints/epoch=17-step=8999.ckpt"
+
+    #Specify the model name, which should match the name of file
+    #that contains the LightningModule
     config_dict["model_name"] = "PN"
-    config_dict["pre_trained_path"] = "../results/ProtoNet/version_11/checkpoints/epoch=17-step=8999.ckpt"
+ 
+    
 
     #whether to use multiple GPUs
     multi_gpu = True
@@ -23,6 +32,7 @@ def config():
     log_dir = "../results/"
     exp_name = "ProtoNet"
     
+    #Three components of a Lightning Running System
     trainer = {}
     data = {}
     model = {}
@@ -88,10 +98,15 @@ def config():
     ##################datamodule configuration###########################
 
     #important
+
+    #The name of dataset, which should match the name of file
+    #that contains the datamodule.
     data["dataset_name"] = "miniImageNet"
     data["data_root"] = "../BF3S-master/data/mini_imagenet_split/images"
+    #determine whether meta-learning.
     data["is_meta"] = True
     data["train_num_workers"] = 8
+    #the number of tasks
     data["train_num_task_per_epoch"] = 1000
     data["val_num_task"] = 1200
     data["test_num_task"] = 2000
@@ -113,7 +128,11 @@ def config():
     ##################model configuration###########################
 
     #important
+
+    #The name of feature extractor, which should match the name of file
+    #that contains the model.
     model["backbone_name"] = "resnet12"
+    #the initial learning rate
     model["lr"] = 0.1 if multi_gpu else 0.05
 
 
@@ -127,8 +146,10 @@ def config():
     model["val_batch_size_per_gpu"] = per_gpu_val_batchsize
     model["test_batch_size_per_gpu"] = per_gpu_test_batchsize
     model["weight_decay"] = 5e-4
+    #The name of optimization scheduler
     model["decay_scheduler"] = "cosine"
     model["optim_type"] = "sgd"
+    #cosine or euclidean
     model["metric"] = "cosine"
     model["scale_cls"] = 10.
     
