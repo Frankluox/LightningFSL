@@ -6,7 +6,7 @@ data:
   is_meta: true
   num_query: 15
   test_batchsize: 8
-  test_num_task: 2000
+  test_num_task: 2
   test_shot: 5
   train_batchsize: 2
   train_num_task_per_epoch: 1000
@@ -35,7 +35,8 @@ model:
   way: 5
   weight_decay: 0.0005
 model_name: PN
-pre_trained_path: ../results/ProtoNet/version_11/checkpoints/epoch=13-step=6999.ckpt
+num_test: 2
+pre_trained_path: ../results/ProtoNet/version_11/checkpoints/epoch=17-step=8999.ckpt
 trainer:
   accelerator: null
   callbacks:

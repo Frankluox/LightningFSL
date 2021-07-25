@@ -9,8 +9,9 @@ def config():
     config_dict = {}
 
     config_dict["is_test"] = True
+    config_dict["num_test"] = 2
     config_dict["model_name"] = "PN"
-    config_dict["pre_trained_path"] = "../results/ProtoNet/version_11/checkpoints/epoch=13-step=6999.ckpt"
+    config_dict["pre_trained_path"] = "../results/ProtoNet/version_11/checkpoints/epoch=17-step=8999.ckpt"
     multi_gpu = False
 
     
@@ -84,7 +85,7 @@ def config():
     data["is_DDP"] = True if multi_gpu else False
     data["train_num_task_per_epoch"] = 1000
     data["val_num_task"] = 1200
-    data["test_num_task"] = 2000
+    data["test_num_task"] = 2
     data["way"] = way
     data["val_shot"] = val_shot
     data["num_query"] = num_query

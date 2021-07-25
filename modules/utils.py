@@ -23,10 +23,12 @@ def epoch_wrapup(pl_module: LightningModule, mode: str):
     """
     assert mode in ["train", "val", "test"]
     value = getattr(pl_module, f"{mode}_loss").compute()
-    pl_module.log(f"{mode}/loss_epoch", value)
+    if mode == 'train':
+        pl_module.log(f"{mode}/loss_epoch", value)
     getattr(pl_module, f"{mode}_loss").reset()
     value = getattr(pl_module, f"{mode}_acc").compute()
-    pl_module.log(f"{mode}/acc_epoch", value)
+    if mode == 'train':
+        pl_module.log(f"{mode}/acc_epoch", value)
     getattr(pl_module, f"{mode}_acc").reset()
 
 def set_schedule(pl_module):
