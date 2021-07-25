@@ -60,17 +60,15 @@ def set_schedule(pl_module):
                             Try to implement your own optimizer.")
     
     if decay_scheduler == "cosine":
-        gpu_num = len(pl_module.trainer.gpus) if isinstance(pl_module.trainer.gpus,list)\
-                                              else pl_module.trainer.gpus
         if pl_module.trainer.max_steps is None:
-            max_steps = (
-            len(pl_module.trainer.datamodule.train_dataloader())
-            * pl_module.trainer.max_epochs
-            // (pl_module.trainer.accumulate_grad_batches*gpu_num)
-        )
+            if pl_module.trainer.datamodule.is_meta or\
+             not pl_module.trainer.datamodule.is_DDP:
+                length_epoch = len(pl_module.trainer.datamodule.train_dataloader())
+            else:
+                length_epoch = len(pl_module.trainer.datamodule.train_dataloader().sampler)
+            max_steps = length_epoch * pl_module.trainer.max_epochs
         else:
             max_steps = pl_module.trainer.max_steps
-        
         scheduler = {'scheduler': CosineAnnealingLR(optimizer,max_steps),
                      'interval': 'step'}
     elif decay_scheduler == "specified_epochs":

@@ -54,7 +54,8 @@ class Block(nn.Module):
 
 
 class ResNet12(nn.Module):
-
+    """The standard popular ResNet12 Model used in Few-Shot Learning.
+    """
     def __init__(self, channels):
         super().__init__()
 

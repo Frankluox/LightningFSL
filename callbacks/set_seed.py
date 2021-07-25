@@ -4,7 +4,7 @@ import torch.distributed as dist
 class SetSeedCallback(Callback):
     """Set different seed for each GPU.
     """
-    def __init__(self, seed = 10, is_DDP):
+    def __init__(self, seed = 10, is_DDP=False):
         self.seed = seed
         self.is_DDP = is_DDP
     def on_fit_start(self,trainer,pl_module):
