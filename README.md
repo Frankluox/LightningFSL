@@ -10,6 +10,6 @@ bash run.sh
 
 ## Advanced:
 
-Write your own module, datasetmodule and set_config file, then run set_config file first to generate config.yaml, then execute run.py file to run the program.
+Write your own model and set_config file, then run set_config file first to generate config.yaml, then execute run.py file to run the program.
 
  

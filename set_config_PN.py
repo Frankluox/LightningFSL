@@ -9,7 +9,7 @@ def config():
     config_dict = {}
 
     #if training, set to False
-    config_dict["is_test"] = True
+    config_dict["is_test"] = False
     if config_dict["is_test"]:
         #if testing, specify the total rounds of testing. Default: 5
         config_dict["num_test"] = 5
@@ -50,7 +50,7 @@ def config():
     if multi_gpu:
         trainer["accelerator"] = "ddp"
         trainer["sync_batchnorm"] = True
-        trainer["gpus"] = [1,2]
+        trainer["gpus"] = [0,1]
     else:
         trainer["accelerator"] = None
         trainer["gpus"] = [0]

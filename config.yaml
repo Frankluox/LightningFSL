@@ -2,26 +2,26 @@ data:
   data_root: ../BF3S-master/data/mini_imagenet_split/images
   dataset_name: miniImageNet
   drop_last: false
-  is_DDP: false
+  is_DDP: true
   is_meta: true
   num_query: 15
-  test_batchsize: 8
+  test_batchsize: 16
   test_num_task: 2000
   test_shot: 5
-  train_batchsize: 2
+  train_batchsize: 4
   train_num_task_per_epoch: 1000
   train_num_workers: 8
   train_shot: 5
-  val_batchsize: 8
+  val_batchsize: 16
   val_num_task: 1200
   val_num_workers: 8
   val_shot: 5
   way: 5
-is_test: true
+is_test: false
 model:
   backbone_name: resnet12
   decay_scheduler: cosine
-  lr: 0.05
+  lr: 0.1
   metric: cosine
   num_query: 15
   optim_type: sgd
@@ -35,10 +35,8 @@ model:
   way: 5
   weight_decay: 0.0005
 model_name: PN
-num_test: 5
-pre_trained_path: ../results/ProtoNet/version_23/checkpoints/epoch=30-step=7749.ckpt
 trainer:
-  accelerator: null
+  accelerator: ddp
   callbacks:
   - class_path: pytorch_lightning.callbacks.LearningRateMonitor
     init_args:
@@ -55,6 +53,7 @@ trainer:
   fast_dev_run: false
   gpus:
   - 0
+  - 1
   logger:
     class_path: pytorch_lightning.loggers.TensorBoardLogger
     init_args:
@@ -63,4 +62,4 @@ trainer:
   max_epochs: 60
   replace_sampler_ddp: false
   resume_from_checkpoint: null
-  sync_batchnorm: false
+  sync_batchnorm: true
