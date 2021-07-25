@@ -8,7 +8,6 @@ class FewShotDataModule(LightningDataModule):
     r"""A general datamodule for few-shot image classification.
 
     Args:
-        dataset_file_name: The name of file that contains the dataset construction class.
         dataset_name: The name of the dataset construction class.
         data_root: Root directory path of data.
         is_meta: whether implementing meta-learning during training.
@@ -100,6 +99,9 @@ class FewShotDataModule(LightningDataModule):
             mode="test",
         )
     def set_sampler(self):
+        """Set sampler for training, validation and testing.
+           task-level batches need batch sampler.
+        """
         if self.is_meta:
             self.train_batch_sampler = CategoriesSampler(
                 self.train_dataset.label, self.train_num_task_per_epoch,

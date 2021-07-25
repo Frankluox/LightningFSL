@@ -6,34 +6,6 @@ import torch
 import torch.nn.functional as F
 class BaseFewShotModule(LightningModule):
     r"""Template for all few-shot learning models.
-
-    Args:
-        backbone_name: The name of the feature extractor, 
-                       which should match the correspond 
-                       file name in architectures.feature_extractor
-        way: The number of classes within one task.
-        train_shot: The number of samples within each few-shot 
-                    support class during training. 
-                    For meta-learning only.
-        val_shot: The number of samples within each few-shot 
-                  support class during validation.
-        test_shot: The number of samples within each few-shot 
-                   support class during testing.
-        num_query: The number of samples within each few-shot 
-                   query class.
-        train_batch_size_per_gpu: The batch size of training per GPU.
-        val_batch_size_per_gpu: The batch size of validation per GPU.
-        test_batch_size_per_gpu: The batch size of testing per GPU.
-        lr: The initial learning rate.
-        weight_decay: The weight decay parameter.
-        decay_scheduler: The scheduler of optimizer.
-                         "cosine" or "specified_epochs".
-        optim_type: The optimizer type.
-                    "sgd" or "adam"
-        decay_epochs: The list of decay epochs of decay_scheduler "specified_epochs".
-        decay_power: The decay power of decay_scheduler "specified_epochs"
-                     at eachspeicified epoch.
-                     i.e., adjusted_lr = lr * decay_power
     """
     def __init__(
         self,
@@ -54,6 +26,35 @@ class BaseFewShotModule(LightningModule):
         decay_power: Optional[float] = None,
         **kwargs
     ) -> None:
+        """
+        Args:
+            backbone_name: The name of the feature extractor, 
+                        which should match the correspond 
+                        file name in architectures.feature_extractor
+            way: The number of classes within one task.
+            train_shot: The number of samples within each few-shot 
+                        support class during training. 
+                        For meta-learning only.
+            val_shot: The number of samples within each few-shot 
+                    support class during validation.
+            test_shot: The number of samples within each few-shot 
+                    support class during testing.
+            num_query: The number of samples within each few-shot 
+                    query class.
+            train_batch_size_per_gpu: The batch size of training per GPU.
+            val_batch_size_per_gpu: The batch size of validation per GPU.
+            test_batch_size_per_gpu: The batch size of testing per GPU.
+            lr: The initial learning rate.
+            weight_decay: The weight decay parameter.
+            decay_scheduler: The scheduler of optimizer.
+                            "cosine" or "specified_epochs".
+            optim_type: The optimizer type.
+                        "sgd" or "adam"
+            decay_epochs: The list of decay epochs of decay_scheduler "specified_epochs".
+            decay_power: The decay power of decay_scheduler "specified_epochs"
+                        at eachspeicified epoch.
+                        i.e., adjusted_lr = lr * decay_power
+        """
         super().__init__()
         self.save_hyperparameters()
         self.backbone = get_backbone(backbone_name, **kwargs)

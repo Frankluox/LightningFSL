@@ -8,7 +8,29 @@ from .base_module import BaseFewShotModule
 from typing import Tuple, List, Optional, Union
 class ProtoNet(BaseFewShotModule):
     r"""The datamodule implementing Prototypical Network.
-    
+    """
+    def __init__(
+        self,
+        backbone_name: str = "resnet12",      
+        way: int = 5,
+        train_shot: int = 5,
+        val_shot: int = 5,
+        test_shot: int = 5,
+        num_query: int = 15,
+        train_batch_size_per_gpu: int = 2,
+        val_batch_size_per_gpu: int = 2,
+        test_batch_size_per_gpu: int = 2,
+        lr: float = 0.1,
+        weight_decay: float = 5e-4,
+        decay_scheduler: str = "cosine",
+        optim_type: str = "sgd",
+        decay_epochs: Union[List, Tuple, None] = None,
+        decay_power: Optional[float] = None,
+        metric: str = "cosine",
+        scale_cls: float = 10.,
+        **kwargs
+    ) -> None:
+    """   
     Args:
         metric: what metrics applied. "cosine" or "euclidean".
         scale_cls: The initial scale number which affects the 
@@ -40,27 +62,6 @@ class ProtoNet(BaseFewShotModule):
                      at eachspeicified epoch.
                      i.e., adjusted_lr = lr * decay_power
     """
-    def __init__(
-        self,
-        backbone_name: str = "resnet12",      
-        way: int = 5,
-        train_shot: int = 5,
-        val_shot: int = 5,
-        test_shot: int = 5,
-        num_query: int = 15,
-        train_batch_size_per_gpu: int = 2,
-        val_batch_size_per_gpu: int = 2,
-        test_batch_size_per_gpu: int = 2,
-        lr: float = 0.1,
-        weight_decay: float = 5e-4,
-        decay_scheduler: str = "cosine",
-        optim_type: str = "sgd",
-        decay_epochs: Union[List, Tuple, None] = None,
-        decay_power: Optional[float] = None,
-        metric: str = "cosine",
-        scale_cls: float = 10.,
-        **kwargs
-    ) -> None:
         super().__init__(
             backbone_name, way, train_shot, val_shot,
             test_shot, num_query, train_batch_size_per_gpu,

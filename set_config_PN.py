@@ -8,11 +8,12 @@ ex = Experiment("ProtoNet", save_git_info=False)
 def config():
     config_dict = {}
 
-    config_dict["is_test"] = True
+    config_dict["is_test"] = False
     config_dict["num_test"] = 2
     config_dict["model_name"] = "PN"
     config_dict["pre_trained_path"] = "../results/ProtoNet/version_11/checkpoints/epoch=17-step=8999.ckpt"
-    multi_gpu = False
+    multi_gpu = True
+    seed = 10
 
     
     trainer = {}
@@ -24,7 +25,7 @@ def config():
     if multi_gpu:
         trainer["accelerator"] = "ddp"
         trainer["sync_batchnorm"] = True
-        trainer["gpus"] = 2
+        trainer["gpus"] = [1,2]
     else:
         trainer["accelerator"] = None
         trainer["gpus"] = [1]
@@ -34,7 +35,7 @@ def config():
     # trainer["resume_from_checkpoint"] = "../results/ProtoNet/version_11/checkpoints/epoch=2-step=1499.ckpt"
 
     num_gpus = trainer["gpus"] if isinstance(trainer["gpus"], int) else len(trainer["gpus"])
-    trainer["fast_dev_run"] = False
+    trainer["fast_dev_run"] = True
 
     
     log_dir = "../results/"
@@ -50,6 +51,9 @@ def config():
                   },
                 {"class_path": "pytorch_lightning.callbacks.ModelCheckpoint",
                   "init_args":{"verbose": True, "save_last": True, "monitor": "val/acc", "mode": "max"}
+                },
+                {"class_path": "callbacks.SetSeedCallback",
+                 "init_args":{"seed": seed}
                 }]
 
     ##################shared model and datamodule configuration###########################
@@ -83,9 +87,9 @@ def config():
     data["train_num_workers"] = 8
     data["val_num_workers"] = 8
     data["is_DDP"] = True if multi_gpu else False
-    data["train_num_task_per_epoch"] = 1000
-    data["val_num_task"] = 1200
-    data["test_num_task"] = 2
+    data["train_num_task_per_epoch"] = 1
+    data["val_num_task"] = 1
+    data["test_num_task"] = 1
     data["way"] = way
     data["val_shot"] = val_shot
     data["num_query"] = num_query

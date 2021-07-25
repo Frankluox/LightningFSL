@@ -9,7 +9,7 @@ import numpy as np
 import json
 import os
 class Few_Shot_CLI(LightningCLI):
-    """Add testing processes into LightningCLI
+    """Add testing processes into LightningCLI, and add the model specifying proccess.
            Add four config parameters:
              --is_test: determine the mode
              --model_name: The few-shot model name. For example, PN.
@@ -35,7 +35,7 @@ class Few_Shot_CLI(LightningCLI):
         parser.add_argument(
             'model_name',
             type=str,
-            default="",
+            default="PN",
             help="The model name to train on.\
                   It should match the file name that contains the model."
         )
@@ -92,6 +92,6 @@ if __name__ == '__main__':
     cli = Few_Shot_CLI(
         model_class= BaseFewShotModule, 
         datamodule_class = FewShotDataModule, 
-        seed_everything_default=1234,
+        # seed_everything_default=1234,
         save_config_callback = RefinedSaverCallback
     )
