@@ -155,7 +155,7 @@ class FewShotDataModule(LightningDataModule):
         loader = DataLoader(
             self.test_dataset,
             shuffle = False,
-            num_workers = self.test_num_workers,
+            num_workers = self.val_num_workers,
             batch_sampler = self.test_batch_sampler,
             pin_memory = True
         )

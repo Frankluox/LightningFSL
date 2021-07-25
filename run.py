@@ -4,6 +4,7 @@ from modules import get_module, BaseFewShotModule
 from dataset_and_process import FewShotDataModule
 from pytorch_lightning.core.lightning import LightningModule
 from callbacks import RefinedSaverCallback
+import torch
 class Few_Shot_CLI(LightningCLI):
     def __init__(self,**kwargs) -> None:
         """Add two config parameters:
@@ -28,6 +29,19 @@ class Few_Shot_CLI(LightningCLI):
             help="The model name to train on.\
                   It should match the file name that contains the model."
         )
+        parser.add_argument(
+            'pre_trained_path',
+            type=str,
+            default="",
+            help="The path of pretrained model. For testing only."
+        )
+        # parser.add_argument(
+        #     'num_test',
+        #     type=int,
+        #     default=5,
+        #     help="The number of processes of implementing testing.\
+        #           The average accuracy and std will be calculated."
+        # )
     def parse_arguments(self) -> None:
         """Parses command line arguments and stores it in self.config"""
         self.config = self.parser.parse_args(_skip_check = True)
@@ -48,6 +62,8 @@ class Few_Shot_CLI(LightningCLI):
     def after_fit(self):
         """Runs testing"""
         if self.is_test:
+            state = torch.load(self.config["pre_trained_path"])["state_dict"]
+            self.model.load_state_dict(state)
             self.trainer.test(self.model, datamodule=self.datamodule)
         else:
             pass

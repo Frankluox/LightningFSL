@@ -8,8 +8,9 @@ ex = Experiment("ProtoNet", save_git_info=False)
 def config():
     config_dict = {}
 
-    config_dict["is_test"] = False
+    config_dict["is_test"] = True
     config_dict["model_name"] = "PN"
+    config_dict["pre_trained_path"] = "../results/ProtoNet/version_11/checkpoints/epoch=13-step=6999.ckpt"
     multi_gpu = False
 
     
@@ -25,10 +26,16 @@ def config():
         trainer["gpus"] = 2
     else:
         trainer["accelerator"] = None
-        trainer["gpus"] = [4]
+        trainer["gpus"] = [1]
         trainer["sync_batchnorm"] = False
+
+    trainer["resume_from_checkpoint"] = None
+    # trainer["resume_from_checkpoint"] = "../results/ProtoNet/version_11/checkpoints/epoch=2-step=1499.ckpt"
+
     num_gpus = trainer["gpus"] if isinstance(trainer["gpus"], int) else len(trainer["gpus"])
     trainer["fast_dev_run"] = False
+
+    
     log_dir = "../results/"
     exp_name = "ProtoNet"
     trainer["logger"] = {"class_path":"pytorch_lightning.loggers.TensorBoardLogger",
@@ -36,6 +43,13 @@ def config():
                         }
     trainer["max_epochs"] = 60
     trainer["replace_sampler_ddp"] = False
+
+    trainer["callbacks"] = [{"class_path": "pytorch_lightning.callbacks.LearningRateMonitor", 
+                  "init_args": {"logging_interval": "step"}
+                  },
+                {"class_path": "pytorch_lightning.callbacks.ModelCheckpoint",
+                  "init_args":{"verbose": True, "save_last": True, "monitor": "val/acc", "mode": "max"}
+                }]
 
     ##################shared model and datamodule configuration###########################
 
@@ -70,7 +84,7 @@ def config():
     data["is_DDP"] = True if multi_gpu else False
     data["train_num_task_per_epoch"] = 1000
     data["val_num_task"] = 1200
-    data["test_num_task"] = 1200
+    data["test_num_task"] = 2000
     data["way"] = way
     data["val_shot"] = val_shot
     data["num_query"] = num_query

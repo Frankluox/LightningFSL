@@ -58,7 +58,7 @@ class PN_head(nn.Module):
         if self.metric == "cosine":
             features_train = F.normalize(features_train, p=2, dim=2, eps=1e-12)
         #prototypes: [batch_size, way, c]
-        prototypes = torch.mean(features_train.reshape(batch_size, way, shot, -1),dim=2)
+        prototypes = torch.mean(features_train.reshape(batch_size, shot, way, -1),dim=1)
         prototypes = F.normalize(prototypes, p=2, dim=2, eps=1e-12)
 
         if self.normalize:
@@ -68,6 +68,7 @@ class PN_head(nn.Module):
         assert features_test.dim() == 3
 
         if self.metric == "cosine":
+            features_test = F.normalize(features_test, p=2, dim=2, eps=1e-12)
             #[batch_size, num_query, c] * [batch_size, c, way] -> [batch_size, num_query, way]
             classification_scores = self.scale_cls * torch.bmm(features_test, prototypes.transpose(1, 2))
 

@@ -57,7 +57,7 @@ class BaseFewShotModule(LightningModule):
         super().__init__()
         self.save_hyperparameters()
         self.backbone = get_backbone(backbone_name, **kwargs)
-        self.label = torch.arange(way, dtype=torch.int8).unsqueeze(1).repeat(1, num_query)
+        self.label = torch.arange(way, dtype=torch.int8).repeat(num_query)
         self.label = self.label.type(torch.LongTensor).reshape(-1)
 
         utils.set_metrics(self)

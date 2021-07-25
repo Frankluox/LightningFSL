@@ -75,7 +75,7 @@ class CategoriesSampler(Sampler[T_co]):
                     l = self.m_ind[c]#all data indexs of this class
                     pos = torch.randperm(len(l))[:self.total_sample_per_class] #sample total_sample_per_class data index of this class
                     task.append(l[pos])
-                tasks.append(torch.stack(task).reshape(-1))
+                tasks.append(torch.stack(task).t().reshape(-1))
             tasks = torch.stack(tasks).reshape(-1)
             # print(self.repeat_time)
             # print(tasks.shape)

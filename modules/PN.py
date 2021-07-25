@@ -81,10 +81,9 @@ class ProtoNet(BaseFewShotModule):
             way: The number of classes within one task.
             shot: The number of samples within each few-shot support class. 
         """
-        # import pdb
-        # pdb.set_trace()
         num_support_samples = way * shot
         data, _ = batch
+        data = self.backbone(data)
         data = data.reshape([batch_size, -1] + list(data.shape[-3:]))
         data_support = data[:, :num_support_samples]
         data_query = data[:, num_support_samples:]
@@ -99,6 +98,8 @@ class ProtoNet(BaseFewShotModule):
 
 def get_model():
     return ProtoNet
+
+
     
         
 
