@@ -91,6 +91,10 @@ def config():
     data["dataset_name"] = "miniImageNet"
     data["data_root"] = "../BF3S-master/data/mini_imagenet_split/images"
     data["is_meta"] = True
+    data["train_num_workers"] = 8
+    data["train_num_task_per_epoch"] = 1000
+    data["val_num_task"] = 1200
+    data["test_num_task"] = 2000
     
     
     #less important
@@ -99,12 +103,8 @@ def config():
     data["test_batchsize"] = num_gpus*per_gpu_test_batchsize
     data["test_shot"] = test_shot
     data["train_shot"] = train_shot
-    data["train_num_workers"] = 8
     data["val_num_workers"] = 8
     data["is_DDP"] = True if multi_gpu else False
-    data["train_num_task_per_epoch"] = 1
-    data["val_num_task"] = 1
-    data["test_num_task"] = 1
     data["way"] = way
     data["val_shot"] = val_shot
     data["num_query"] = num_query
