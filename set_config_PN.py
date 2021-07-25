@@ -12,9 +12,16 @@ def config():
     config_dict["num_test"] = 2
     config_dict["model_name"] = "PN"
     config_dict["pre_trained_path"] = "../results/ProtoNet/version_11/checkpoints/epoch=17-step=8999.ckpt"
+
+    #whether to use multiple GPUs
     multi_gpu = True
+
+    #The seed
     seed = 10
 
+    #The logging dirname: logdir/exp_name/
+    log_dir = "../results/"
+    exp_name = "ProtoNet"
     
     trainer = {}
     data = {}
@@ -22,6 +29,13 @@ def config():
 
 
     ################trainer configuration###########################
+
+
+    ###important###
+
+    #debugging mode
+    trainer["fast_dev_run"] = False
+
     if multi_gpu:
         trainer["accelerator"] = "ddp"
         trainer["sync_batchnorm"] = True
@@ -30,22 +44,14 @@ def config():
         trainer["accelerator"] = None
         trainer["gpus"] = [1]
         trainer["sync_batchnorm"] = False
-
-    trainer["resume_from_checkpoint"] = None
-    # trainer["resume_from_checkpoint"] = "../results/ProtoNet/version_11/checkpoints/epoch=2-step=1499.ckpt"
-
-    num_gpus = trainer["gpus"] if isinstance(trainer["gpus"], int) else len(trainer["gpus"])
-    trainer["fast_dev_run"] = True
-
     
-    log_dir = "../results/"
-    exp_name = "ProtoNet"
-    trainer["logger"] = {"class_path":"pytorch_lightning.loggers.TensorBoardLogger",
-                        "init_args": {"save_dir": log_dir,"name": exp_name}
-                        }
-    trainer["max_epochs"] = 60
-    trainer["replace_sampler_ddp"] = False
+    # whether resume from a given checkpoint file
+    trainer["resume_from_checkpoint"] = None # example: "../results/ProtoNet/version_11/checkpoints/epoch=2-step=1499.ckpt"
 
+    # The maximum epochs to run
+    trainer["max_epochs"] = 60
+
+    # potential functionalities added to the trainer.
     trainer["callbacks"] = [{"class_path": "pytorch_lightning.callbacks.LearningRateMonitor", 
                   "init_args": {"logging_interval": "step"}
                   },
@@ -55,6 +61,15 @@ def config():
                 {"class_path": "callbacks.SetSeedCallback",
                  "init_args":{"seed": seed}
                 }]
+
+    ###less important###
+    num_gpus = trainer["gpus"] if isinstance(trainer["gpus"], int) else len(trainer["gpus"])
+    trainer["logger"] = {"class_path":"pytorch_lightning.loggers.TensorBoardLogger",
+                        "init_args": {"save_dir": log_dir,"name": exp_name}
+                        }
+    trainer["replace_sampler_ddp"] = False
+
+    
 
     ##################shared model and datamodule configuration###########################
 
