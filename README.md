@@ -2,14 +2,14 @@
 A friendly framework for Few-Shot Learning base on pytorch-lightning.
 
 
-Usage:
+# Usage:
 
-simple usage for running Prototypical Network (temporarily only supported):
+Simple usage for running Prototypical Network (temporarily only supported):
 
 bash run.sh
 
-Advanced:
+# Advanced:
 
-write your own module, datasetmodule and set_config file, then run set_config file first to generate config.yaml, then execute run.py file to run the program.
+Write your own module, datasetmodule and set_config file, then run set_config file first to generate config.yaml, then execute run.py file to run the program.
 
  
