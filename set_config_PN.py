@@ -9,12 +9,12 @@ def config():
     config_dict = {}
 
     #if training, set to False
-    config_dict["is_test"] = False
+    config_dict["is_test"] = True
     if config_dict["is_test"]:
         #if testing, specify the total rounds of testing. Default: 5
         config_dict["num_test"] = 5
         #specify pretrained path for testing.
-        config_dict["pre_trained_path"] = "../results/ProtoNet/version_11/checkpoints/epoch=17-step=8999.ckpt"
+        config_dict["pre_trained_path"] = "../results/ProtoNet/version_23/checkpoints/epoch=30-step=7749.ckpt"
 
     #Specify the model name, which should match the name of file
     #that contains the LightningModule
@@ -24,7 +24,8 @@ def config():
 
     #whether to use multiple GPUs
     multi_gpu = True
-
+    if config_dict["is_test"]:
+        multi_gpu = False
     #The seed
     seed = 10
 
@@ -52,7 +53,7 @@ def config():
         trainer["gpus"] = [1,2]
     else:
         trainer["accelerator"] = None
-        trainer["gpus"] = [1]
+        trainer["gpus"] = [0]
         trainer["sync_batchnorm"] = False
     
     # whether resume from a given checkpoint file
