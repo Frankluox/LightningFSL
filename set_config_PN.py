@@ -49,8 +49,8 @@ def config():
 
     if multi_gpu:
         trainer["accelerator"] = "ddp"
-        trainer["sync_batchnorm"] = True
-        trainer["gpus"] = [0,1]
+        trainer["sync_batchnorm"] = False
+        trainer["gpus"] = [2,3]
     else:
         trainer["accelerator"] = None
         trainer["gpus"] = [0]
@@ -70,7 +70,7 @@ def config():
                   "init_args":{"verbose": True, "save_last": True, "monitor": "val/acc", "mode": "max"}
                 },
                 {"class_path": "callbacks.SetSeedCallback",
-                 "init_args":{"seed": seed}
+                 "init_args":{"seed": seed, "is_DDP": multi_gpu}
                 }]
 
     ###less important###

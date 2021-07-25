@@ -4,10 +4,13 @@ import torch.distributed as dist
 class SetSeedCallback(Callback):
     """Set different seed for each GPU.
     """
-    def __init__(self, seed = 10):
+    def __init__(self, seed = 10, is_DDP):
         self.seed = seed
+        self.is_DDP = is_DDP
     def on_fit_start(self,trainer,pl_module):
-        if dist.is_available():
+        if self.is_DDP:
+            if not dist.is_available():
+                raise RuntimeError("Requires distributed package to be available")
             seed_everything((dist.get_rank()+1)*self.seed)
         else:
             seed_everything(self.seed)
