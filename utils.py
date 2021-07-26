@@ -6,7 +6,7 @@ def preserve_key(state, remove_prefix: str):
     state_keys = list(state.keys())
     for i, key in enumerate(state_keys):
         if remove_prefix in key:
-            newkey = key.replace(remove_prefix, "")
+            newkey = key.replace(remove_prefix + '.', "")
             state[newkey] = state.pop(key)
         else:
             state.pop(key)
