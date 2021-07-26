@@ -39,7 +39,7 @@ class PN_head(nn.Module):
 
         Args:
             features_test: Testing examples. size: [batch_size, num_query, c, h, w]
-            features_train: Training examples which has labels like:[aaaabbbbcccc].
+            features_train: Training examples which has labels like:[abcdabcdabcd].
                             size: [batch_size, way*shot, c, h, w]
             way: The number of classes of each few-shot classification task.
             shot: The number of training images per class in each few-shot classification
