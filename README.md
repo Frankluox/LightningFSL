@@ -7,7 +7,9 @@ To get started, the followings need to be done:
 
     * Choose a configuration file in `config(e.g.`set_config_PN.py` for PN model).
     * modify the first line in run.sh (e.g., `python config/set_config_PN.py`).
-    * To begin the running: `$ bash run.sh`
+    * To begin the running: 
+    
+   `$ bash run.sh`
 
 
 
