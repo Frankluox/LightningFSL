@@ -22,7 +22,7 @@ class CE_Pretrainer(BaseFewShotModule):
         test_batch_size_per_gpu: int = 2,
         lr: float = 0.1,
         weight_decay: float = 5e-4,
-        decay_scheduler: str = "cosine",
+        decay_scheduler: Optional[str] = "cosine",
         optim_type: str = "sgd",
         decay_epochs: Union[List, Tuple, None] = None,
         decay_power: Optional[float] = None,  

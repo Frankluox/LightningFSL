@@ -71,6 +71,7 @@ def set_schedule(pl_module):
             max_steps = pl_module.trainer.max_steps
         scheduler = {'scheduler': CosineAnnealingLR(optimizer,max_steps),
                      'interval': 'step'}
+        return {'optimizer': optimizer, 'lr_scheduler': scheduler}
     elif decay_scheduler == "specified_epochs":
         decay_epochs = pl_module.hparams.decay_epochs
         decay_power = pl_module.hparams.decay_power
@@ -78,9 +79,12 @@ def set_schedule(pl_module):
         scheduler = {'scheduler': 
                      MultiStepLR(optimizer, milestones=decay_epochs, gamma=decay_power),
                      'interval': 'epoch'}
+        return {'optimizer': optimizer, 'lr_scheduler': scheduler}
+    elif decay_scheduler is None:
+        return optimizer
     else:
         raise RuntimeError("decay scheduler not supported.\
                             Try to implement your own scheduler.")
 
-    return {'optimizer': optimizer, 'lr_scheduler': scheduler}
+    
         
