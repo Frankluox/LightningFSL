@@ -3,7 +3,9 @@ A friendly codebase for Few-Shot Learning based on pytorch-lightning.
 
 
 ## Usage:
-Choose a configuration file in `configs` (e.g., `set_config_PN.py` for PN model), then modify the first line in run.sh.
+Choose a configuration file in `config` (e.g., `set_config_PN.py` for PN model), then modify the first line in run.sh, e.g.,
+
+`python config/set_config_PN.py`
 
 To begin the running:
 
