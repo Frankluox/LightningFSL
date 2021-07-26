@@ -9,7 +9,7 @@ Choose a configuration file in `config` (e.g., `set_config_PN.py` for PN model),
 
 To begin the running:
 
-`bash run.sh`
+`$ bash run.sh`
 
 ## Advanced:
 
