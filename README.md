@@ -19,4 +19,4 @@ Implemented results on few-shot learning datasets with ResNet-12 backbone. The a
 
 |Models|5-way 1-shot|5-way 5-shot|
 |:----:|:----:|:----:|
-|[Protypical Networks](https://arxiv.org/abs/1703.05175)|61.19\$\pm$\0.40 |  76.50\$\pm$\0.45| 
+|[Protypical Networks](https://arxiv.org/abs/1703.05175)|61.19+-0.40 |  76.50+-0.45| 
