@@ -3,10 +3,11 @@ A friendly codebase for Few-Shot Learning based on pytorch-lightning.
 
 
 ## Usage:
+Choose a configuration file in ``configs'' (e.g., set_config_PN for PN model), then modify the first line in run.sh.
 
-Simple usage for running Prototypical Network (temporarily only supported):
+To begin the running:
 
-bash run.sh
+`bash run.sh`
 
 ## Advanced:
 
