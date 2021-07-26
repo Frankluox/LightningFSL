@@ -13,7 +13,7 @@ To begin the running:
 
 ## Advanced:
 
-Write your own model and set_config file, then run set_config file first to generate config.yaml, then execute run.py file to run the program.
+Write your own model in `modules` and config file in `config`, run configuration file first to generate `config.yaml`, and execute `run.py` file to run the program.
 
 ## Few-shot classification Results
 Implemented results on few-shot learning datasets with ResNet-12 backbone. The average results of 2,000 randomly sampled episodes repeated 5 times for 1/5-shot evaluation with 95% confidence interval are reported.
