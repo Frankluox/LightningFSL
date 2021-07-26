@@ -9,7 +9,7 @@ To get started, the followings need to be done:
     * modify the first line in run.sh (e.g., `python config/set_config_PN.py`).
     * To begin the running: 
     
-&nbsp &nbsp &nbsp &nbsp `$ bash run.sh`
+&nbsp; &nbsp; &nbsp; &nbsp; `$ bash run.sh`
 
 
 
