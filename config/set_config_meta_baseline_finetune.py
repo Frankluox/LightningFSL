@@ -59,14 +59,14 @@ def config():
         trainer["gpus"] = [2,3]
     else:
         trainer["accelerator"] = None
-        trainer["gpus"] = [0]
+        trainer["gpus"] = [1]
         trainer["sync_batchnorm"] = False
     
     # whether resume from a given checkpoint file
     trainer["resume_from_checkpoint"] = None # example: "../results/ProtoNet/version_11/checkpoints/epoch=2-step=1499.ckpt"
 
     # The maximum epochs to run
-    trainer["max_epochs"] = 20
+    trainer["max_epochs"] = 100
 
     # potential functionalities added to the trainer.
     trainer["callbacks"] = [{"class_path": "pytorch_lightning.callbacks.LearningRateMonitor", 
@@ -77,6 +77,9 @@ def config():
                 },
                 {"class_path": "callbacks.SetSeedCallback",
                  "init_args":{"seed": seed, "is_DDP": multi_gpu}
+                },
+                {"class_path": "pytorch_lightning.callbacks.EarlyStopping",
+                 "init_args":{"monitor":"val/acc", "patience": 18, "mode": "max", "verbose": True}
                 }]
 
     ###less important###
@@ -114,7 +117,7 @@ def config():
     data["is_meta"] = True
     data["train_num_workers"] = 8
     #the number of tasks
-    data["train_num_task_per_epoch"] = 1000
+    data["train_num_task_per_epoch"] = 200
     data["val_num_task"] = 1200
     data["test_num_task"] = 2000
     
