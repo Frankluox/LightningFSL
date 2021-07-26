@@ -29,7 +29,7 @@ def config():
     
 
     #whether to use multiple GPUs
-    multi_gpu = True
+    multi_gpu = False
     if config_dict["is_test"]:
         multi_gpu = False
     #The seed
@@ -37,7 +37,7 @@ def config():
 
     #The logging dirname: logdir/exp_name/
     log_dir = "../results/"
-    exp_name = "ProtoNet/version_11/1shot"
+    exp_name = "ProtoNet/no_normalization"
     
     #Three components of a Lightning Running System
     trainer = {}
@@ -59,7 +59,7 @@ def config():
         trainer["gpus"] = [2,3]
     else:
         trainer["accelerator"] = None
-        trainer["gpus"] = [3]
+        trainer["gpus"] = [0]
         trainer["sync_batchnorm"] = False
     
     # whether resume from a given checkpoint file
@@ -159,6 +159,7 @@ def config():
     #cosine or euclidean
     model["metric"] = "cosine"
     model["scale_cls"] = 10.
+    model["normalize"] = True
     
 
     config_dict["trainer"] = trainer

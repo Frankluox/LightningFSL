@@ -11,6 +11,9 @@ class ProtoNet(BaseFewShotModule):
     """
     def __init__(
         self,
+        metric: str = "cosine",
+        scale_cls: float = 10.,
+        normalize: bool = True,
         backbone_name: str = "resnet12",      
         way: int = 5,
         train_shot: int = 5,
@@ -26,8 +29,6 @@ class ProtoNet(BaseFewShotModule):
         optim_type: str = "sgd",
         decay_epochs: Union[List, Tuple, None] = None,
         decay_power: Optional[float] = None,
-        metric: str = "cosine",
-        scale_cls: float = 10.,
         **kwargs
     ) -> None:
         """   
@@ -35,6 +36,7 @@ class ProtoNet(BaseFewShotModule):
             metric: what metrics applied. "cosine" or "euclidean".
             scale_cls: The initial scale number which affects the 
                     following softmax function.
+            normalize: Whether normalize each spatial dimension of image features before average pooling.
             backbone_name: The name of the feature extractor, 
                         which should match the correspond 
                         file name in architectures.feature_extractor
@@ -69,7 +71,7 @@ class ProtoNet(BaseFewShotModule):
             lr, weight_decay, decay_scheduler, optim_type,
             decay_epochs, decay_power, **kwargs
         )
-        self.classifier = PN_head(metric, scale_cls)
+        self.classifier = PN_head(metric, scale_cls, normalize=normalize)
 
 
     def forward(self, batch, batch_size, way, shot):
