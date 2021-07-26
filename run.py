@@ -8,12 +8,15 @@ import torch
 import numpy as np
 import json
 import os
+import utils
 class Few_Shot_CLI(LightningCLI):
-    """Add testing processes into LightningCLI, and add the model specifying proccess.
+    """Add testing, model specifying and loading proccess into LightningCLI.
            Add four config parameters:
              --is_test: determine the mode
              --model_name: The few-shot model name. For example, PN.
+             --load_pretrained: whether to load pretrained model.
              --pre_trained_path: The path of pretrained model.
+             --load_backbone_only: whether to only load the backbone.
              --num_test: The number of processes of implementing testing.
                          The average accuracy and 95% confidence interval across
                          all repeated processes will be calculated.
@@ -40,10 +43,24 @@ class Few_Shot_CLI(LightningCLI):
                   It should match the file name that contains the model."
         )
         parser.add_argument(
+            'load_pretrained',
+            type=bool,
+            default=False,
+            help="whether load pretrained model.\
+                 This is is different from resume_from_checkpoint\
+                 that loads everything from a breakpoint."
+        )
+        parser.add_argument(
             'pre_trained_path',
             type=str,
             default="",
             help="The path of pretrained model. For testing only."
+        )
+        parser.add_argument(
+            'load_backbone_only',
+            type=bool,
+            default=False,
+            help="whether only load the backbone."
         )
         parser.add_argument(
             'num_test',
@@ -65,6 +82,15 @@ class Few_Shot_CLI(LightningCLI):
         """get the configured model"""
         self.model_class = get_module(self.config["model_name"])
 
+    def before_fit(self):
+        """Load pretrained model."""
+        if self.config["load_pretrained"]:
+            state = torch.load(self.config["pre_trained_path"])["state_dict"]
+            if self.config["load_backbone_only"]:
+                state = utils.preserve_key(state, "backbone")
+                self.model.backbone.load_state_dict(state)
+            else:
+                self.model.load_state_dict(state)
     def fit(self):
         """Runs fit of the instantiated trainer class and prepared fit keyword arguments"""
         if self.config["is_test"]:
@@ -74,8 +100,6 @@ class Few_Shot_CLI(LightningCLI):
     def after_fit(self):
         """Runs testing and logs the results"""
         if self.config["is_test"]:
-            state = torch.load(self.config["pre_trained_path"])["state_dict"]
-            self.model.load_state_dict(state)
             acc_list = []
             for _ in range(self.config["num_test"]):
                 result=self.trainer.test(self.model, datamodule=self.datamodule)

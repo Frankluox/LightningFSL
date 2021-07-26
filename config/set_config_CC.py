@@ -8,13 +8,19 @@ ex = Experiment("Cosine Classifier", save_git_info=False)
 def config():
     config_dict = {}
 
+    # whether load pretrained model. This is is different from resume_from_checkpoint that loads everything from a breakpoint.
+    config_dict["load_pretrained"] = False
     #if training, set to False
-    config_dict["is_test"] = False
+    config_dict["is_test"] = True
     if config_dict["is_test"]:
         #if testing, specify the total rounds of testing. Default: 5
         config_dict["num_test"] = 5
+        config_dict["load_pretrained"] = True
         #specify pretrained path for testing.
-        config_dict["pre_trained_path"] = "../results/CC/version_11/checkpoints/epoch=52-step=26499.ckpt"
+    if config_dict["load_pretrained"]:
+        config_dict["pre_trained_path"] = "../results/CC/first_ex/version_2/checkpoints/epoch=58-step=17699.ckpt"
+        #only load the backbone.
+        config_dict["load_backbone_only"] = False
 
     #Specify the model name, which should match the name of file
     #that contains the LightningModule
@@ -31,7 +37,7 @@ def config():
 
     #The logging dirname: logdir/exp_name/
     log_dir = "../results/"
-    exp_name = "CC/first_ex"
+    exp_name = "CC/first_ex/version_2/1shot"
     
     #Three components of a Lightning Running System
     trainer = {}
@@ -53,7 +59,7 @@ def config():
         trainer["gpus"] = [2,3]
     else:
         trainer["accelerator"] = None
-        trainer["gpus"] = [0]
+        trainer["gpus"] = [1]
         trainer["sync_batchnorm"] = False
     
     # whether resume from a given checkpoint file
@@ -85,7 +91,7 @@ def config():
     ##################shared model and datamodule configuration###########################
 
     #important
-    test_shot = 5
+    test_shot = 1
 
     #less important
     per_gpu_val_batchsize = 8

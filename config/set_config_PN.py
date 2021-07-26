@@ -9,13 +9,19 @@ def config():
     config_dict = {}
 
     #if training, set to False
-    config_dict["is_test"] = True
+    config_dict["load_pretrained"] = False
+    #if training, set to False
+    config_dict["is_test"] = False
     if config_dict["is_test"]:
         #if testing, specify the total rounds of testing. Default: 5
         config_dict["num_test"] = 5
+        config_dict["load_pretrained"] = True
         #specify pretrained path for testing.
-        config_dict["pre_trained_path"] = "../results/ProtoNet/version_11/checkpoints/epoch=52-step=26499.ckpt"
-
+    if config_dict["load_pretrained"]:
+        config_dict["pre_trained_path"] = "../results/CC/version_11/checkpoints/epoch=52-step=26499.ckpt"
+        #only load the backbone.
+        config_dict["load_backbone_only"] = False
+        
     #Specify the model name, which should match the name of file
     #that contains the LightningModule
     config_dict["model_name"] = "PN"
