@@ -133,7 +133,7 @@ def config():
     #that contains the model.
     model["backbone_name"] = "resnet12"
     #the initial learning rate
-    model["lr"] = 0.1 if multi_gpu else 0.05
+    model["lr"] = 0.1*data["train_batchsize"]/128
 
 
     #less important
