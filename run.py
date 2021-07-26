@@ -79,7 +79,7 @@ class Few_Shot_CLI(LightningCLI):
             acc_list = []
             for _ in range(self.config["num_test"]):
                 result=self.trainer.test(self.model, datamodule=self.datamodule)
-                acc_list.append(result[0]['test/acc'])
+                acc_list.append(result[0]['test/acc']*100)
             acc_list = np.array(acc_list)
             mean = np.mean(acc_list)
             confidence_interval = np.std(acc_list)*1.96

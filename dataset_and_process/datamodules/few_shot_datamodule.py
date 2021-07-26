@@ -29,6 +29,7 @@ class FewShotDataModule(LightningDataModule):
             tail of the tasks to make it evenly divisible across the number of
             DDP replicas. If ``False``, the sampler will add extra indices to make
             the data evenly divisible across the replicas. Default: ``False``.
+        num_gpus: The number of gpus.
 
     .. warning::
         Remember to turn off ``replace_sampler_ddp'' in the Trainer, otherwise the 
@@ -53,7 +54,8 @@ class FewShotDataModule(LightningDataModule):
         val_shot: int = 5,
         test_shot: int = 5,
         num_query: int = 15,
-        drop_last: Optional[bool] = None
+        drop_last: Optional[bool] = None,
+        num_gpus: int = 1,
     ) -> None:
         super().__init__()
         self.data_root = data_root
@@ -76,6 +78,7 @@ class FewShotDataModule(LightningDataModule):
         self.test_shot = test_shot
         self.num_query = num_query
         self.drop_last = drop_last
+        self.num_gpus = num_gpus
         
     @property
     def dataset_cls(self):
@@ -108,7 +111,7 @@ class FewShotDataModule(LightningDataModule):
                 self.way, self.train_shot+self.num_query, self.train_batch_size, 
                 self.is_DDP, self.drop_last
                 )
-        elif self.DDP:
+        elif self.is_DDP:
             self.train_sampler = DistributedSampler(self.train_dataset)
 
         self.val_batch_sampler = CategoriesSampler(
@@ -133,7 +136,7 @@ class FewShotDataModule(LightningDataModule):
         loader = DataLoader(
             self.train_dataset,
             batch_size = 1 if self.train_batch_sampler is not None\
-                         else self.train_batch_size,
+                         else self.train_batch_size//self.num_gpus,
             shuffle = False if self.train_batch_sampler is not None\
                       or self.train_sampler is not None else True,
             num_workers = self.train_num_workers,
@@ -165,4 +168,5 @@ class FewShotDataModule(LightningDataModule):
 
 if __name__ == '__main__':
     a = FewShotDataModule()
-    print(a.dataset_cls)
+    # a.set_train_dataset()
+    # print(a.train_dataloader().sampler)

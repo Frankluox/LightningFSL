@@ -2,7 +2,7 @@ from sacred import Experiment
 import yaml
 import time 
 import os
-ex = Experiment("ProtoNet", save_git_info=False)
+ex = Experiment("Cosine Classifier", save_git_info=False)
 
 @ex.config
 def config():
@@ -14,16 +14,16 @@ def config():
         #if testing, specify the total rounds of testing. Default: 5
         config_dict["num_test"] = 5
         #specify pretrained path for testing.
-        config_dict["pre_trained_path"] = "../results/ProtoNet/version_23/checkpoints/epoch=30-step=7749.ckpt"
+        config_dict["pre_trained_path"] = "../results/CC/version_11/checkpoints/epoch=52-step=26499.ckpt"
 
     #Specify the model name, which should match the name of file
     #that contains the LightningModule
-    config_dict["model_name"] = "PN"
+    config_dict["model_name"] = "cosine_classifier"
  
     
 
     #whether to use multiple GPUs
-    multi_gpu = True
+    multi_gpu = False
     if config_dict["is_test"]:
         multi_gpu = False
     #The seed
@@ -31,7 +31,7 @@ def config():
 
     #The logging dirname: logdir/exp_name/
     log_dir = "../results/"
-    exp_name = "ProtoNet"
+    exp_name = "CC/first_ex"
     
     #Three components of a Lightning Running System
     trainer = {}
@@ -49,7 +49,7 @@ def config():
 
     if multi_gpu:
         trainer["accelerator"] = "ddp"
-        trainer["sync_batchnorm"] = False
+        trainer["sync_batchnorm"] = True
         trainer["gpus"] = [2,3]
     else:
         trainer["accelerator"] = None
@@ -85,8 +85,6 @@ def config():
     ##################shared model and datamodule configuration###########################
 
     #important
-    per_gpu_train_batchsize = 2
-    train_shot = 5
     test_shot = 5
 
     #less important
@@ -102,29 +100,30 @@ def config():
 
     #The name of dataset, which should match the name of file
     #that contains the datamodule.
+    
     data["dataset_name"] = "miniImageNet"
     data["data_root"] = "../BF3S-master/data/mini_imagenet_split/images"
     #determine whether meta-learning.
-    data["is_meta"] = True
+    data["train_batchsize"] = 128
+    
     data["train_num_workers"] = 8
     #the number of tasks
-    data["train_num_task_per_epoch"] = 1000
     data["val_num_task"] = 1200
     data["test_num_task"] = 2000
     
     
     #less important
-    data["train_batchsize"] = num_gpus*per_gpu_train_batchsize
+    data["num_gpus"] = num_gpus
     data["val_batchsize"] = num_gpus*per_gpu_val_batchsize
     data["test_batchsize"] = num_gpus*per_gpu_test_batchsize
     data["test_shot"] = test_shot
-    data["train_shot"] = train_shot
     data["val_num_workers"] = 8
     data["is_DDP"] = True if multi_gpu else False
     data["way"] = way
     data["val_shot"] = val_shot
     data["num_query"] = num_query
     data["drop_last"] = False
+    data["is_meta"] = False
 
     ##################model configuration###########################
 
@@ -139,19 +138,17 @@ def config():
 
     #less important
     model["way"] = way
-    model["train_shot"] = train_shot
     model["val_shot"] = val_shot
     model["test_shot"] = test_shot
     model["num_query"] = num_query
-    model["train_batch_size_per_gpu"] = per_gpu_train_batchsize
     model["val_batch_size_per_gpu"] = per_gpu_val_batchsize
     model["test_batch_size_per_gpu"] = per_gpu_test_batchsize
     model["weight_decay"] = 5e-4
     #The name of optimization scheduler
     model["decay_scheduler"] = "cosine"
     model["optim_type"] = "sgd"
-    #cosine or euclidean
-    model["metric"] = "cosine"
+    model["feature_dim"] = 640
+    model["num_classes"] = 64
     model["scale_cls"] = 10.
     
 
@@ -164,7 +161,7 @@ def config():
 @ex.automain
 def main(_config):
     config_dict = _config["config_dict"]
-    file_ = 'config.yaml'
+    file_ = 'config/config.yaml'
     stream = open(file_, 'w')
     yaml.safe_dump(config_dict, stream=stream,default_flow_style=False)
 

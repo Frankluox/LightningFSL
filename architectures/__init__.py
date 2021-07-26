@@ -1,4 +1,5 @@
 from .classifier.proto_head import PN_head
+from .classifier.CC_head import CC_head
 
 from importlib import import_module
 

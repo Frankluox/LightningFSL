@@ -75,11 +75,3 @@ class PN_head(nn.Module):
         elif self.metric == "euclidean":
             classification_scores = -self.scale_cls * L2SquareDist(features_test, prototypes)
         return classification_scores
-
-
-def create_model(opt):
-    return PN_head(
-        scale_cls=opt["scale_cls"],
-        learn_scale=opt["learn_scale"],
-        metric=opt["metric"]
-    )

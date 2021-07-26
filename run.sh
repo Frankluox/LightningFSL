@@ -1,2 +1,2 @@
-python set_config_PN.py
-python run.py --config config.yaml
+python config/set_config_CC.py
+python run.py --config config/config.yaml
