@@ -2,21 +2,21 @@
 A friendly codebase for Few-Shot Learning based on pytorch-lightning.
 
 
-## Usage:
-Choose a configuration file in `config` (e.g., `set_config_PN.py` for PN model), then modify the first line in run.sh, e.g.,
+## General guide:
+To get started, the followings need to be done:
 
-`python config/set_config_PN.py`
-
-To begin the running:
+    * Choose a configuration file in `config(e.g.`set_config_PN.py` for PN model).
+    * modify the first line in run.sh (e.g., `python config/set_config_PN.py`).
+    * To begin the running: 
 
 `$ bash run.sh`
 
-## Advanced:
-
-Write your own model in `modules` and config file in `config`, run configuration file first to generate `config.yaml`, and execute `run.py` file to run the program.
 
 
-## Download datasets
+
+
+
+## Download available datasets
 
 [miniImageNet](https://1drv.ms/u/s!AkYSH77Z8H6qa872NXTDnt-6bwY?e=XcKJgH)
 
@@ -29,3 +29,9 @@ Implemented results on few-shot learning datasets with ResNet-12 backbone. The a
 |:----:|:----:|:----:|
 |[Protypical Networks](https://arxiv.org/abs/1703.05175)|61.19+-0.40 |  76.50+-0.45| 
 |[Cosine Classifier](https://arxiv.org/abs/1804.09458)|63.89+-0.44|80.94+-0.05|
+
+
+## Advanced:
+
+Write your own model in `modules` and config file in `config`, run configuration file first to generate `config.yaml`, and execute `run.py` file to run the program.
+
