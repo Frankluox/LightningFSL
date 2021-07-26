@@ -15,6 +15,11 @@ To begin the running:
 
 Write your own model in `modules` and config file in `config`, run configuration file first to generate `config.yaml`, and execute `run.py` file to run the program.
 
+
+## Download datasets
+
+[miniImageNet](https://1drv.ms/u/s!AkYSH77Z8H6qa872NXTDnt-6bwY?e=XcKJgH)
+
 ## Few-shot classification Results
 Implemented results on few-shot learning datasets with ResNet-12 backbone. The average results of 2,000 randomly sampled episodes repeated 5 times for 1/5-shot evaluation with 95% confidence interval are reported.
 
