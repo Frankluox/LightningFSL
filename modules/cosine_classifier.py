@@ -1,5 +1,5 @@
 from .base_module import BaseFewShotModule
-from architectures import CC_head, get_backbone, PN_head
+from architectures import CC_head, PN_head
 from typing import Tuple, List, Optional, Union
 import torch.nn.functional as F
 class ConsineClassifier(BaseFewShotModule):

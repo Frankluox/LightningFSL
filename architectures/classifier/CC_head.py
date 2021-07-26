@@ -57,10 +57,9 @@ class CC_head(nn.Module):
     def forward(self, features):
         if features.dim() == 4:
             if self.normalize:
-                features=F.normalize(features, p=2, dim=2, eps=1e-12)
+                features=F.normalize(features, p=2, dim=1, eps=1e-12)
             features = F.adaptive_avg_pool2d(features, 1).squeeze_(-1).squeeze_(-1)
         assert features.dim() == 2
-
         x_normalized = F.normalize(features, p=2, dim=1, eps = 1e-12)
         self.L.weight.data = F.normalize(self.L.weight.data, p=2, dim=1, eps = 1e-12)
         cos_dist = self.L(x_normalized)
