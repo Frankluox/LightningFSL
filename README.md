@@ -29,7 +29,7 @@ Implemented results on few-shot learning datasets with ResNet-12 backbone. The a
 |:----:|:----:|:----:|
 |[Protypical Networks](https://arxiv.org/abs/1703.05175)|61.19+-0.40 |  76.50+-0.45| 
 |[Cosine Classifier](https://arxiv.org/abs/1804.09458)|63.89+-0.44|80.94+-0.05|
-
+|[Meta-Baseline](https://arxiv.org/abs/2003.04390)|62.65+-0.65|79.10+-0.29|
 
 ## Advanced:
 
