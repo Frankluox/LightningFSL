@@ -1,4 +1,3 @@
-from pytorch_lightning import LightningModule
 from torch.nn import Module
 import torch
 from architectures import PN_head, get_backbone
