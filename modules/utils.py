@@ -1,17 +1,8 @@
-from torchmetrics import Accuracy, AverageMeter
 from pytorch_lightning import LightningModule
 from torch.optim.lr_scheduler import MultiStepLR, CosineAnnealingLR
 from torch.optim import Adam, SGD
 
-def set_metrics(pl_module: LightningModule):
-    r"""Set basic logging metrics for few-shot learning.
 
-    Args:
-        pl_module: an instance of LightningModule.
-    """
-    for split in ["train", "val", "test"]:
-        setattr(pl_module, f"{split}_loss", AverageMeter())
-        setattr(pl_module, f"{split}_acc", Accuracy())
 
 def epoch_wrapup(pl_module: LightningModule, mode: str):
     r"""On the end of each epoch, log information of the whole
