@@ -16,12 +16,12 @@ To get started, the followings need to be done:
 
 
 
-## Download available datasets
+## Download available datasets (will be gradually updated)
 
 [miniImageNet](https://1drv.ms/u/s!AkYSH77Z8H6qa872NXTDnt-6bwY?e=XcKJgH)
 
-## Few-shot classification Results
-Implemented results on few-shot learning datasets with ResNet-12 backbone. The average results of 2,000 randomly sampled episodes repeated 5 times for 1/5-shot evaluation with 95% confidence interval are reported.
+## Few-shot classification Results (will be gradually updated)
+Implemented results on few-shot learning datasets with ResNet-12 backbone. The average results of 2,000 randomly sampled episodes repeated 5 times for 1/5-shot evaluation with 95% confidence interval are reported. 
 
 #### miniImageNet Dataset
 
