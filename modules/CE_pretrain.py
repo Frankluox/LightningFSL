@@ -9,7 +9,6 @@ class CE_Pretrainer(BaseFewShotModule):
     """
     def __init__(
         self,
-        feature_dim: int = 640,
         num_classes: int = 64,
         task_classifier_name: str = "proto_head",
         task_classifier_params: Dict = {"learn_scale":False},
@@ -30,7 +29,6 @@ class CE_Pretrainer(BaseFewShotModule):
     ) -> None:
         """   
         Args:
-            feature_dim: The output feature dimension of the backbone network.
             num_classes: The number of classes of the training dataset.
             task_classifier_name: The name of the classifier for downstream (val, test)
                                   few-shot tasks. It should match the name of file that 
@@ -67,7 +65,7 @@ class CE_Pretrainer(BaseFewShotModule):
             lr=lr, weight_decay=weight_decay, decay_scheduler=decay_scheduler, optim_type=optim_type,
             decay_epochs=decay_epochs, decay_power=decay_power, **kwargs
         )
-        self.classifier = nn.Linear(feature_dim, num_classes)
+        self.classifier = nn.Linear(self.backbone.outdim, num_classes)
         self.val_test_classifier = get_classifier(task_classifier_name, **task_classifier_params)
 
     def train_forward(self, batch):

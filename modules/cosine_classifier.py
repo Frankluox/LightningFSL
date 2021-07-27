@@ -7,7 +7,6 @@ class ConsineClassifier(BaseFewShotModule):
     """
     def __init__(
         self,
-        feature_dim: int = 640,
         num_classes: int = 64,
         scale_cls: float = 10.,
         backbone_name: str = "resnet12",      
@@ -27,7 +26,6 @@ class ConsineClassifier(BaseFewShotModule):
     ) -> None:
         """   
         Args:
-            feature_dim: The output feature dimension of the backbone network.
             num_classes: The number of classes of the training dataset.
             scale_cls: The initial scale number which affects the 
                         following softmax function.
@@ -63,7 +61,7 @@ class ConsineClassifier(BaseFewShotModule):
             lr=lr, weight_decay=weight_decay, decay_scheduler=decay_scheduler, optim_type=optim_type,
             decay_epochs=decay_epochs, decay_power=decay_power, **kwargs
         )
-        self.classifier = CC_head(feature_dim, num_classes, scale_cls)
+        self.classifier = CC_head(self.backbone.outdim, num_classes, scale_cls)
         self.val_test_classifier = PN_head(learn_scale=False)
 
     def train_forward(self, batch):

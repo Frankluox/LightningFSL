@@ -162,7 +162,6 @@ def config():
     model["decay_epochs"] = [90]
     model["decay_power"] = 0.1
     model["optim_type"] = "sgd"
-    model["feature_dim"] = 640
     model["num_classes"] = 64
 
     

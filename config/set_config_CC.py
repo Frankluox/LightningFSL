@@ -153,7 +153,6 @@ def config():
     #The name of optimization scheduler
     model["decay_scheduler"] = "cosine"
     model["optim_type"] = "sgd"
-    model["feature_dim"] = 640
     model["num_classes"] = 64
     model["scale_cls"] = 10.
     
