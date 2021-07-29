@@ -1,7 +1,7 @@
 from pytorch_lightning import LightningModule
 from . import utils
 from architectures import get_backbone
-from typing import Tuple, List, Optional, Union
+from typing import Tuple, List, Optional, Union, Dict
 import torch
 import torch.nn.functional as F
 from torchmetrics import Accuracy, AverageMeter
@@ -25,7 +25,7 @@ class BaseFewShotModule(LightningModule):
         optim_type: str = "sgd",
         decay_epochs: Union[List, Tuple, None] = None,
         decay_power: Optional[float] = None,
-        **kwargs
+        backbone_kwargs: Dict = {}
     ) -> None:
         """
         Args:
@@ -55,14 +55,15 @@ class BaseFewShotModule(LightningModule):
             decay_power: The decay power of decay_scheduler "specified_epochs"
                         at eachspeicified epoch.
                         i.e., adjusted_lr = lr * decay_power
+            backbone_kwargs: The parameters for creating backbone network.
         """
         super().__init__()
         self.save_hyperparameters()
-        self.backbone = get_backbone(backbone_name, **kwargs)
+        self.backbone = get_backbone(backbone_name, **backbone_kwargs)
         self.label = torch.arange(way, dtype=torch.int8).repeat(num_query)
         self.label = self.label.type(torch.LongTensor).reshape(-1)
 
-        utils.set_metrics(self)
+        self.set_metrics()
 
     def train_forward(self, batch):
         r"""Here implements the forward function of training.

@@ -55,8 +55,8 @@ def mixup_data(x, y, lam):
     batch_size = x.size()[0]
     index = torch.randperm(batch_size)
     mixed_x = lam * x + (1 - lam) * x[index,:]
-    y_a, y_b = y, y[index]
-    return mixed_x, y_a, y_b, lam
+    y_b = y[index]
+    return mixed_x, y_b, lam
 
     
 class WideResNet(nn.Module):
@@ -80,7 +80,7 @@ class WideResNet(nn.Module):
         self.bn1 = nn.BatchNorm2d(nChannels[3])
         self.relu = nn.ReLU(inplace=True)
         self.nChannels = nChannels[3]
-        self.out_dim = nChannels[3]
+        self.outdim = nChannels[3]
         for m in self.modules():
             if isinstance(m, nn.Conv2d):
                 n = m.kernel_size[0] * m.kernel_size[1] * m.out_channels
@@ -104,28 +104,28 @@ class WideResNet(nn.Module):
             target_a = target_b  = target
 
             if layer_mix == 0:
-                out, target_a , target_b , lam = mixup_data(out, target, lam=lam)
+                out, target_b , lam = mixup_data(out, target, lam=lam)
 
             out = self.conv1(out)
             out = self.block1(out)
 
 
             if layer_mix == 1:
-                out, target_a , target_b , lam  = mixup_data(out, target, lam=lam)
+                out, target_b , lam  = mixup_data(out, target, lam=lam)
 
             out = self.block2(out)
 
             if layer_mix == 2:
-                out, target_a , target_b , lam = mixup_data(out, target, lam=lam)
+                out, target_b , lam = mixup_data(out, target, lam=lam)
 
 
             out = self.block3(out)
             if  layer_mix == 3:
-                out, target_a , target_b , lam = mixup_data(out, target, lam=lam)
+                out, target_b , lam = mixup_data(out, target, lam=lam)
 
             out = self.relu(self.bn1(out))
 
-            return out, target_a , target_b
+            return out, target_b
         else: 
             out = x
             out = self.conv1(out)

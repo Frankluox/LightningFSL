@@ -4,7 +4,7 @@ from architectures import PN_head, get_backbone
 import torch.nn.functional as F
 from . import utils
 from .base_module import BaseFewShotModule
-from typing import Tuple, List, Optional, Union
+from typing import Tuple, List, Optional, Union, Dict
 class ProtoNet(BaseFewShotModule):
     r"""The datamodule implementing Prototypical Network.
     """
@@ -28,7 +28,7 @@ class ProtoNet(BaseFewShotModule):
         optim_type: str = "sgd",
         decay_epochs: Union[List, Tuple, None] = None,
         decay_power: Optional[float] = None,
-        **kwargs
+        backbone_kwargs: Dict = {}
     ) -> None:
         """   
         Args:
@@ -62,13 +62,14 @@ class ProtoNet(BaseFewShotModule):
             decay_power: The decay power of decay_scheduler "specified_epochs"
                         at eachspeicified epoch.
                         i.e., adjusted_lr = lr * decay_power
+            backbone_kwargs: The parameters for creating backbone network.
         """
         super().__init__(
             backbone_name, way, train_shot, val_shot,
             test_shot, num_query, train_batch_size_per_gpu,
             val_batch_size_per_gpu, test_batch_size_per_gpu,
             lr, weight_decay, decay_scheduler, optim_type,
-            decay_epochs, decay_power, **kwargs
+            decay_epochs, decay_power, backbone_kwargs
         )
         self.classifier = PN_head(metric, scale_cls, normalize=normalize)
 

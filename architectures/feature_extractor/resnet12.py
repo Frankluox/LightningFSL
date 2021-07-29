@@ -66,7 +66,7 @@ class ResNet12(nn.Module):
         self.layer3 = self._make_layer(channels[2])
         self.layer4 = self._make_layer(channels[3])
 
-        self.out_dim = channels[3]
+        self.outdim = channels[3]
         for m in self.modules():
             if isinstance(m, nn.Conv2d):
                 nn.init.kaiming_normal_(m.weight, mode='fan_out',

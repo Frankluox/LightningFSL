@@ -25,7 +25,7 @@ class CE_Pretrainer(BaseFewShotModule):
         optim_type: str = "sgd",
         decay_epochs: Union[List, Tuple, None] = None,
         decay_power: Optional[float] = None,  
-        **kwargs
+        backbone_kwargs: Dict = {}
     ) -> None:
         """   
         Args:
@@ -57,13 +57,14 @@ class CE_Pretrainer(BaseFewShotModule):
             decay_power: The decay power of decay_scheduler "specified_epochs"
                         at eachspeicified epoch.
                         i.e., adjusted_lr = lr * decay_power
+            backbone_kwargs: The parameters for creating backbone network.
         """
         super().__init__(
             backbone_name=backbone_name, way=way, val_shot=val_shot,
             test_shot=test_shot, num_query=num_query, 
             val_batch_size_per_gpu=val_batch_size_per_gpu, test_batch_size_per_gpu=test_batch_size_per_gpu,
             lr=lr, weight_decay=weight_decay, decay_scheduler=decay_scheduler, optim_type=optim_type,
-            decay_epochs=decay_epochs, decay_power=decay_power, **kwargs
+            decay_epochs=decay_epochs, decay_power=decay_power, backbone_kwargs = backbone_kwargs
         )
         self.classifier = nn.Linear(self.backbone.outdim, num_classes)
         self.val_test_classifier = get_classifier(task_classifier_name, **task_classifier_params)

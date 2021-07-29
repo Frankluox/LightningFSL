@@ -1,6 +1,6 @@
 from .base_module import BaseFewShotModule
 from architectures import CC_head, PN_head
-from typing import Tuple, List, Optional, Union
+from typing import Tuple, List, Optional, Union, Dict
 import torch.nn.functional as F
 class ConsineClassifier(BaseFewShotModule):
     r"""The datamodule implementing ConsineClassifier.
@@ -22,7 +22,7 @@ class ConsineClassifier(BaseFewShotModule):
         optim_type: str = "sgd",
         decay_epochs: Union[List, Tuple, None] = None,
         decay_power: Optional[float] = None,
-        **kwargs
+        backbone_kwargs: Dict = {}
     ) -> None:
         """   
         Args:
@@ -51,6 +51,7 @@ class ConsineClassifier(BaseFewShotModule):
             decay_power: The decay power of decay_scheduler "specified_epochs"
                         at eachspeicified epoch.
                         i.e., adjusted_lr = lr * decay_power
+            backbone_kwargs: The parameters for creating backbone network.
         """
         # train_shot_ = None
         # train_batch_size_per_gpu_ = None
@@ -59,7 +60,7 @@ class ConsineClassifier(BaseFewShotModule):
             test_shot=test_shot, num_query=num_query, 
             val_batch_size_per_gpu=val_batch_size_per_gpu, test_batch_size_per_gpu=test_batch_size_per_gpu,
             lr=lr, weight_decay=weight_decay, decay_scheduler=decay_scheduler, optim_type=optim_type,
-            decay_epochs=decay_epochs, decay_power=decay_power, **kwargs
+            decay_epochs=decay_epochs, decay_power=decay_power, backbone_kwargs = backbone_kwargs
         )
         self.classifier = CC_head(self.backbone.outdim, num_classes, scale_cls)
         self.val_test_classifier = PN_head(learn_scale=False)

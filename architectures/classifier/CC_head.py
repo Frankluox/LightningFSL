@@ -68,6 +68,13 @@ class CC_head(nn.Module):
         return classification_scores
 
 
+
+def create_model(indim, outdim,  
+        scale_cls: int =10.0, 
+        learn_scale: bool = True, 
+        normalize: bool = True):
+    return CC_head(indim, outdim, scale_cls, learn_scale, normalize)
+    
 if __name__ == "__main__":
     layer = nn.Linear(3, 5, bias=False)
     x= torch.zeros((2,3,4,4))
