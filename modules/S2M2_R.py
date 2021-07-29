@@ -75,7 +75,9 @@ class S2M2_R(BaseFewShotModule):
         x180 = x90.transpose(3,2).flip(2)
         x270 = x180.transpose(3,2).flip(2)
         rotate_labels = self.rotate_labels.repeat(batch_size).to(x.device)
-        x = torch.cat((x,x90,x180,x270),dim=0)
+        x = torch.stack((x,x90,x180,x270),dim=1).reshape([-1]+list(x.shape[-3:]))
+        # import pdb
+        # pdb.set_trace()
         features = self.backbone(x)
         logits_normal = self.cosine_classifier(features)
         normal_labels = labels[:batch_size].unsqueeze_(1).repeat(1,4).reshape(-1)
@@ -112,7 +114,7 @@ class S2M2_R(BaseFewShotModule):
         log_normal_loss = self.normal_loss(normal_loss)
         log_total_loss = self.total_loss(total_loss)
         
-        rotation_acc = self.rotation_acc(logits_normal, rotate_labels)
+        rotation_acc = self.rotation_acc(logits_rotate, rotate_labels)
         normal_acc = self.normal_acc(logits_normal, normal_labels)
 
         self.log("train/rotation_loss", log_rotation_loss)
