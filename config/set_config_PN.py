@@ -11,14 +11,14 @@ def config():
     #if training, set to False
     config_dict["load_pretrained"] = False
     #if training, set to False
-    config_dict["is_test"] = False
+    config_dict["is_test"] = True
     if config_dict["is_test"]:
         #if testing, specify the total rounds of testing. Default: 5
         config_dict["num_test"] = 5
         config_dict["load_pretrained"] = True
         #specify pretrained path for testing.
     if config_dict["load_pretrained"]:
-        config_dict["pre_trained_path"] = "../results/CC/version_11/checkpoints/epoch=52-step=26499.ckpt"
+        config_dict["pre_trained_path"] = "../results/ProtoNet/no_normalization/version_0/checkpoints/epoch=59-step=29999.ckpt"
         #only load the backbone.
         config_dict["load_backbone_only"] = False
         
@@ -37,7 +37,7 @@ def config():
 
     #The logging dirname: logdir/exp_name/
     log_dir = "../results/"
-    exp_name = "ProtoNet/no_normalization"
+    exp_name = "ProtoNet/no_normalization/version_0/5shot"
     
     #Three components of a Lightning Running System
     trainer = {}
@@ -93,7 +93,7 @@ def config():
     #important
     per_gpu_train_batchsize = 2
     train_shot = 5
-    test_shot = 1
+    test_shot = 5
 
     #less important
     per_gpu_val_batchsize = 8

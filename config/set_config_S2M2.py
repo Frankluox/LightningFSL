@@ -77,7 +77,7 @@ def config():
     trainer["callbacks"] = [{"class_path": "pytorch_lightning.callbacks.LearningRateMonitor", 
                   "init_args": {"logging_interval": "step"}
                   },
-                {"class_path": "pytorch_lightning.callbacks.ModelCheckpoint",
+                {"class_path": "callbacks.ModifiedModelCheckpoint",
                   "init_args":{"verbose": True, "save_last": True, "monitor": "val/acc", "mode": "max"}
                 },
                 {"class_path": "callbacks.SetSeedCallback",
@@ -119,7 +119,7 @@ def config():
     
     data["train_num_workers"] = 8
     #the number of tasks
-    data["val_num_task"] = 1200
+    data["val_num_task"] = 600
     data["test_num_task"] = 2000
     
     

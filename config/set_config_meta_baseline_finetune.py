@@ -11,16 +11,16 @@ def config():
     #if training, set to False
     config_dict["load_pretrained"] = True
     #if training, set to False
-    config_dict["is_test"] = False
+    config_dict["is_test"] = True
     if config_dict["is_test"]:
         #if testing, specify the total rounds of testing. Default: 5
         config_dict["num_test"] = 5
         config_dict["load_pretrained"] = True
         #specify pretrained path for testing.
     if config_dict["load_pretrained"]:
-        config_dict["pre_trained_path"] = "../results/meta_baseline_pretrain/first_ex/version_0/checkpoints/epoch=99-step=29999.ckpt"
+        config_dict["pre_trained_path"] = "../results/meta_baseline_finetune/from_first_ex/version_3/checkpoints/epoch=53-step=5399.ckpt"
         #only load the backbone.
-        config_dict["load_backbone_only"] = True
+        config_dict["load_backbone_only"] = False
         
     #Specify the model name, which should match the name of file
     #that contains the LightningModule
@@ -37,7 +37,7 @@ def config():
 
     #The logging dirname: logdir/exp_name/
     log_dir = "../results/"
-    exp_name = "meta_baseline_finetune/from_first_ex"
+    exp_name = "meta_baseline_finetune/from_first_ex/version_3/1shot"
     
     #Three components of a Lightning Running System
     trainer = {}
@@ -59,7 +59,7 @@ def config():
         trainer["gpus"] = [2,3]
     else:
         trainer["accelerator"] = None
-        trainer["gpus"] = [1]
+        trainer["gpus"] = [3]
         trainer["sync_batchnorm"] = False
     
     # whether resume from a given checkpoint file
