@@ -37,7 +37,8 @@ class S2M2_R(BaseFewShotModule):
         optim_type: str = "sgd",
         decay_epochs: Union[List, Tuple, None] = None,
         decay_power: Optional[float] = None,
-        backbone_kwargs: Dict = {}
+        backbone_kwargs: Dict = {},
+        **kwargs
     ) -> None:
         super().__init__(
             backbone_name=backbone_name, way=way, val_shot=val_shot,

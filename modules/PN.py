@@ -28,7 +28,8 @@ class ProtoNet(BaseFewShotModule):
         optim_type: str = "sgd",
         decay_epochs: Union[List, Tuple, None] = None,
         decay_power: Optional[float] = None,
-        backbone_kwargs: Dict = {}
+        backbone_kwargs: Dict = {},
+        **kwargs
     ) -> None:
         """   
         Args:
