@@ -57,18 +57,18 @@ def config():
 
     #debugging mode
     trainer["fast_dev_run"] = False
-
+    trainer["limit_train_batches"] = 1.0
     if multi_gpu:
         trainer["accelerator"] = "ddp"
         trainer["sync_batchnorm"] = True
         trainer["gpus"] = [3,4,5,6]
     else:
         trainer["accelerator"] = None
-        trainer["gpus"] = [3]
+        trainer["gpus"] = [0]
         trainer["sync_batchnorm"] = False
     
     # whether resume from a given checkpoint file
-    trainer["resume_from_checkpoint"] = None # example: "../results/ProtoNet/version_11/checkpoints/epoch=2-step=1499.ckpt"
+    trainer["resume_from_checkpoint"] = "../results/S2M2/train/version_3/checkpoints/last.ckpt" # example: "../results/ProtoNet/version_11/checkpoints/epoch=2-step=1499.ckpt"
 
     # The maximum epochs to run
     trainer["max_epochs"] = 600
@@ -78,7 +78,7 @@ def config():
                   "init_args": {"logging_interval": "step"}
                   },
                 {"class_path": "callbacks.ModifiedModelCheckpoint",
-                  "init_args":{"verbose": True, "save_last": True, "monitor": "val/acc", "mode": "max"}
+                  "init_args":{"verbose": True, "save_last": True, "monitor": "val/acc", "mode": "max", "save_epochs": [99,199,299,399]}
                 },
                 {"class_path": "callbacks.SetSeedCallback",
                  "init_args":{"seed": seed, "is_DDP": multi_gpu}

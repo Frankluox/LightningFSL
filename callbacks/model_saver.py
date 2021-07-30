@@ -1,13 +1,15 @@
 from pytorch_lightning.callbacks import ModelCheckpoint
 import pytorch_lightning as pl
-from typing import Optional
+from typing import Optional, List
 from pytorch_lightning.utilities import rank_zero_deprecation, rank_zero_warn
+import os
 class ModifiedModelCheckpoint(ModelCheckpoint):
     """Modify ModelCheckpoint, making it not a fault when the monitored validation keys do not exist.
+        And make it possible to specify epochs to save.
     """
-    def __init__(self,**kwargs) -> None:
+    def __init__(self, save_epochs: Optional[List] = None, **kwargs) -> None:
         super().__init__(**kwargs)
-
+        self.save_epochs = save_epochs
 
     def save_checkpoint(self, trainer: 'pl.Trainer', unused: Optional['pl.LightningModule'] = None) -> None:
         """
@@ -42,6 +44,11 @@ class ModifiedModelCheckpoint(ModelCheckpoint):
         self._save_none_monitor_checkpoint(trainer, monitor_candidates)
         # Mode 3: save last checkpoints
         self._save_last_checkpoint(trainer, monitor_candidates)
+
+        if self.save_epochs is not None and epoch in self.save_epochs:
+            save_path = os.path.join(self.dirpath, f"{epoch}th_epoch.ckpt")
+            self._save_model(trainer, save_path)
+
         
     def _validate_monitor_key(self, trainer: 'pl.Trainer') -> None:
         metrics = trainer.logger_connector.callback_metrics
