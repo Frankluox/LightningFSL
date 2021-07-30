@@ -57,7 +57,7 @@ class S2M2_R(BaseFewShotModule):
     def train_forward(self, batch):
         data, labels = batch
         batch_size = data.size(0)
-        if self.trainer.current_epoch+1>=self.switch_epoch:
+        if self.trainer.current_epoch>=self.switch_epoch:
             lam = np.random.beta(self.alpha, self.alpha)
             features, labels_new = \
                 self.backbone(data, labels, mixup_hidden=True,
@@ -93,7 +93,7 @@ class S2M2_R(BaseFewShotModule):
         
     def training_step(self, batch, batch_idx):
         total_loss = 0.
-        if self.trainer.current_epoch+1>=self.switch_epoch:
+        if self.trainer.current_epoch>=self.switch_epoch:
             logits_normal, normal_labels, logits_rotate, mixed_up_logits, labels, rotate_labels, labels_new, lam\
                 = self.train_forward(batch)
             mixed_up_loss = lam*F.cross_entropy(mixed_up_logits, labels)+\
@@ -138,7 +138,7 @@ class S2M2_R(BaseFewShotModule):
         return logits
 
     def validation_step(self, batch, batch_idx):
-        if self.trainer.current_epoch+1>=self.switch_epoch:
+        if self.trainer.current_epoch>=self.switch_epoch:
             _ = self.shared_step(batch, "val")
 
     def training_epoch_end(self, outs):
@@ -154,7 +154,7 @@ class S2M2_R(BaseFewShotModule):
             getattr(self, f"{acc_name}_acc").reset()
         
     def validation_epoch_end(self, outs):
-        if self.trainer.current_epoch+1>=self.switch_epoch:
+        if self.trainer.current_epoch>=self.switch_epoch:
             utils.epoch_wrapup(self, 'val')
 
     def set_metrics(self):
