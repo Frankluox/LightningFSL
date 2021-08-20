@@ -62,13 +62,14 @@ def config():
         trainer["accelerator"] = "ddp"
         trainer["sync_batchnorm"] = True
         trainer["gpus"] = [3,4,5,6]
+        trainer["plugins"] = [{"class_path": "plugins.modified_DDPPlugin"}]
     else:
         trainer["accelerator"] = None
         trainer["gpus"] = [0]
         trainer["sync_batchnorm"] = False
     
     # whether resume from a given checkpoint file
-    trainer["resume_from_checkpoint"] = "../results/S2M2/train/version_3/checkpoints/last.ckpt" # example: "../results/ProtoNet/version_11/checkpoints/epoch=2-step=1499.ckpt"
+    trainer["resume_from_checkpoint"] = "../results/S2M2/train/version_4/checkpoints/last.ckpt" # example: "../results/ProtoNet/version_11/checkpoints/epoch=2-step=1499.ckpt"
 
     # The maximum epochs to run
     trainer["max_epochs"] = 600
@@ -112,8 +113,13 @@ def config():
     #The name of dataset, which should match the name of file
     #that contains the datamodule.
     
-    data["dataset_name"] = "miniImageNet"
-    data["data_root"] = "../BF3S-master/data/mini_imagenet_split/images"
+    data["train_dataset_name"] = "miniImageNet"
+
+    data["train_data_root"] = "../BF3S-master/data/mini_imagenet_split/images"
+
+    data["val_test_dataset_name"] = "miniImageNet"
+
+    data["val_test_data_root"] = "../BF3S-master/data/mini_imagenet_split/images"
     #determine whether meta-learning.
     data["train_batchsize"] = 64
     

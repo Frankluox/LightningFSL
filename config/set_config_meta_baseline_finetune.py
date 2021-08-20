@@ -57,6 +57,7 @@ def config():
         trainer["accelerator"] = "ddp"
         trainer["sync_batchnorm"] = True
         trainer["gpus"] = [2,3]
+        trainer["plugins"] = [{"class_path": "plugins.modified_DDPPlugin"}]
     else:
         trainer["accelerator"] = None
         trainer["gpus"] = [3]
@@ -111,8 +112,13 @@ def config():
 
     #The name of dataset, which should match the name of file
     #that contains the datamodule.
-    data["dataset_name"] = "miniImageNet"
-    data["data_root"] = "../BF3S-master/data/mini_imagenet_split/images"
+    data["train_dataset_name"] = "miniImageNet"
+
+    data["train_data_root"] = "../BF3S-master/data/mini_imagenet_split/images"
+
+    data["val_test_dataset_name"] = "miniImageNet"
+
+    data["val_test_data_root"] = "../BF3S-master/data/mini_imagenet_split/images"
     #determine whether meta-learning.
     data["is_meta"] = True
     data["train_num_workers"] = 8
