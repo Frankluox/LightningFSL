@@ -8,8 +8,10 @@ class FewShotDataModule(LightningDataModule):
     r"""A general datamodule for few-shot image classification.
 
     Args:
-        dataset_name: The name of the dataset construction class.
-        data_root: Root directory path of data.
+        train_dataset_name: The name of the training dataset construction class.
+        val_test_dataset_name: The name of the val/test dataset construction class.
+        train_data_root: Root directory path of train data.
+        val_test_data_root: Root directory path of val/test data.
         is_meta: whether implementing meta-learning during training.
         train_batchsize: The batch size of training.
         val_batchsize: The batch size of validation.
@@ -37,8 +39,10 @@ class FewShotDataModule(LightningDataModule):
     """
     def __init__(
         self,
-        dataset_name: str = "miniImageNet",
-        data_root: str = '',
+        train_dataset_name: str = "miniImageNet",
+        val_test_dataset_name: str = "miniImageNet",
+        train_data_root: str = '',
+        val_test_data_root: str = '',
         is_meta: bool = False,
         train_batchsize: int = 32,
         val_batchsize: int = 4,
@@ -58,8 +62,10 @@ class FewShotDataModule(LightningDataModule):
         num_gpus: int = 1,
     ) -> None:
         super().__init__()
-        self.data_root = data_root
-        self.dataset_name = dataset_name
+        self.train_data_root = train_data_root
+        self.val_test_data_root = val_test_data_root
+        self.train_dataset_name = train_dataset_name
+        self.val_test_dataset_name = val_test_dataset_name
         self.train_num_workers = train_num_workers
         self.val_num_workers = val_num_workers
         self.is_DDP = is_DDP
@@ -81,24 +87,31 @@ class FewShotDataModule(LightningDataModule):
         self.num_gpus = num_gpus
         
     @property
-    def dataset_cls(self):
+    def train_dataset_cls(self):
         """Obtain the dataset class
         """
-        return get_dataset(self.dataset_name)
+        return get_dataset(self.train_dataset_name)
+    
+    @property
+    def val_test_dataset_cls(self):
+        """Obtain the dataset class
+        """
+        return get_dataset(self.val_test_dataset_name)
+
     
     def set_train_dataset(self):
-        self.train_dataset = self.dataset_cls(
-            self.data_root,
+        self.train_dataset = self.train_dataset_cls(
+            self.train_data_root,
             mode="train",
         )
     def set_val_dataset(self):
-        self.val_dataset = self.dataset_cls(
-            self.data_root,
+        self.val_dataset = self.val_test_dataset_cls(
+            self.val_test_data_root,
             mode="val",
         )
     def set_test_dataset(self):
-        self.test_dataset = self.dataset_cls(
-            self.data_root,
+        self.test_dataset = self.val_test_dataset_cls(
+            self.val_test_data_root,
             mode="test",
         )
     def set_sampler(self):
