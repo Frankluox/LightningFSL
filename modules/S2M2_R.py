@@ -85,7 +85,7 @@ class S2M2_R(BaseFewShotModule):
         if features.dim() == 4:
             features = F.adaptive_avg_pool2d(features, 1).squeeze_(-1).squeeze_(-1)
         logits_rotate = self.rotate_classifier(features)
-        if self.trainer.current_epoch+1>=self.switch_epoch:
+        if self.trainer.current_epoch>=self.switch_epoch:
             return logits_normal, normal_labels, logits_rotate, mixed_up_logits, labels, rotate_labels, labels_new, lam
         else:
             return logits_normal, normal_labels, logits_rotate, rotate_labels
