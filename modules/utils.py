@@ -52,14 +52,13 @@ def set_schedule(pl_module):
     
     if decay_scheduler == "cosine":
         if pl_module.trainer.max_steps is None:
-            if pl_module.trainer.datamodule.is_meta or\
-             not pl_module.trainer.datamodule.is_DDP:
-                length_epoch = len(pl_module.trainer.datamodule.train_dataloader())
-            else:
-                length_epoch = len(pl_module.trainer.datamodule.train_dataloader().sampler)
+            length_epoch = len(pl_module.trainer.datamodule.train_dataloader())
             max_steps = length_epoch * pl_module.trainer.max_epochs
+            print(f"length_epoch:{length_epoch}")
+            print(f"max_epochs:{pl_module.trainer.max_epochs}")
         else:
             max_steps = pl_module.trainer.max_steps
+        
         scheduler = {'scheduler': CosineAnnealingLR(optimizer,max_steps),
                      'interval': 'step'}
         return {'optimizer': optimizer, 'lr_scheduler': scheduler}

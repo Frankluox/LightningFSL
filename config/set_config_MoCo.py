@@ -43,7 +43,7 @@ def config():
 
     #The logging dirname: logdir/exp_name/
     log_dir = "../results/"
-    exp_name = "MoCo/first_ex"
+    exp_name = "Exemplar/1000epoch"
     
     #Three components of a Lightning Running System
     trainer = {}
@@ -57,7 +57,7 @@ def config():
     ###important###
 
     #debugging mode
-    trainer["fast_dev_run"] = True
+    trainer["fast_dev_run"] = False
 
     if multi_gpu:
         trainer["accelerator"] = "ddp"
@@ -102,7 +102,7 @@ def config():
     test_shot = 5
 
     #less important
-    per_gpu_val_batchsize = 8
+    per_gpu_val_batchsize = 2
     per_gpu_test_batchsize = 8
     way = 5
     val_shot = 5
