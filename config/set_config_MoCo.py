@@ -43,7 +43,7 @@ def config():
 
     #The logging dirname: logdir/exp_name/
     log_dir = "../results/"
-    exp_name = "Exemplar/1000epoch"
+    exp_name = "Exemplar/1000epoch/no_sync_BN"
     
     #Three components of a Lightning Running System
     trainer = {}
@@ -61,8 +61,8 @@ def config():
 
     if multi_gpu:
         trainer["accelerator"] = "ddp"
-        trainer["sync_batchnorm"] = True
-        trainer["gpus"] = [1,2]
+        trainer["sync_batchnorm"] = False
+        trainer["gpus"] = [3,4]
         trainer["plugins"] = [{"class_path": "plugins.modified_DDPPlugin"}]
     else:
         trainer["accelerator"] = None
