@@ -50,8 +50,8 @@ class S2M2_R(BaseFewShotModule):
         self.switch_epoch = switch_epoch
         self.alpha = alpha
         self.rotate_classifier = nn.Linear(self.backbone.outdim, 4)
-        self.cosine_classifier = CC_head(self.backbone.outdim, num_classes, scale_cls, learn_scale=False)
-        ft_CC_params = {"indim":self.backbone.outdim, "outdim":way, "scale_cls":scale_cls, "learn_scale":False}
+        self.cosine_classifier = CC_head(self.backbone.outdim, num_classes, scale_cls, learn_scale=False,normalize=False)
+        ft_CC_params = {"indim":self.backbone.outdim, "outdim":way, "scale_cls":scale_cls, "learn_scale":False, "normalize": False}
         self.finetune_classifier = Finetuner(ft_batchsize, ft_epochs,ft_lr, ft_wd, way, "CC_head", ft_CC_params)
         self.rotate_labels = torch.tensor([0,1,2,3])
 

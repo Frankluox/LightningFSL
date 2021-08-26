@@ -134,6 +134,7 @@ class MoCo(BaseFewShotModule):
         if self.hparams.is_Exampler:
             self.labels[ptr:ptr + batch_size] = labels
         ptr = (ptr + batch_size) % self.hparams.queue_len  # move pointer
+        self.queue_ptr[0] = ptr
 
     @torch.no_grad()
     def _batch_shuffle(self, x):
