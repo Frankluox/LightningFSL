@@ -77,7 +77,7 @@ class ProtoNet(BaseFewShotModule):
 
     def forward(self, batch, batch_size, way, shot):
         r"""Since PN is a meta-learning method,
-            the model forward process is the same.
+            the model forward process is the same for train, val and test.
         
         Args:
             batch: a batch from val_dataloader.
