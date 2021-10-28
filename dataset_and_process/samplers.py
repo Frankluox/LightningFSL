@@ -71,10 +71,12 @@ class CategoriesSampler(Sampler[T_co]):
         # print(self.num_iteration)
         for _ in range(self.num_iteration):
             tasks = []
-            for _ in range(self.per_gpu_batch_size):
+            for i in range(self.per_gpu_batch_size):
                 task = []
                 #random sample num_class indexs,e.g. 5
                 classes = torch.randperm(len(self.m_ind))[:self.way]
+                # print(f"{j}: {i}: {dist.get_rank()}: {classes}")
+                # print(classes)
                 for c in classes:
                     #sample total_sample_per_class data index of this class
                     l = self.m_ind[c]#all data indexs of this class

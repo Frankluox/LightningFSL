@@ -11,7 +11,7 @@ def config():
     # whether load pretrained model. This is is different from resume_from_checkpoint that loads everything from a breakpoint.
     config_dict["load_pretrained"] = False
     #if training, set to False
-    config_dict["is_test"] = True
+    config_dict["is_test"] = False
     if config_dict["is_test"]:
         #if testing, specify the total rounds of testing. Default: 5
         config_dict["num_test"] = 5
@@ -29,7 +29,7 @@ def config():
     
 
     #whether to use multiple GPUs
-    multi_gpu = False
+    multi_gpu = True
     if config_dict["is_test"]:
         multi_gpu = False
     #The seed
@@ -37,7 +37,7 @@ def config():
 
     #The logging dirname: logdir/exp_name/
     log_dir = "../results/"
-    exp_name = "CC/first_ex/version_2/1shot"
+    exp_name = "CC/test"
     
     #Three components of a Lightning Running System
     trainer = {}
@@ -56,18 +56,18 @@ def config():
     if multi_gpu:
         trainer["accelerator"] = "ddp"
         trainer["sync_batchnorm"] = True
-        trainer["gpus"] = [2,3]
+        trainer["gpus"] = [1,6]
         trainer["plugins"] = [{"class_path": "plugins.modified_DDPPlugin"}]
     else:
         trainer["accelerator"] = None
-        trainer["gpus"] = [1]
+        trainer["gpus"] = [6]
         trainer["sync_batchnorm"] = False
     
     # whether resume from a given checkpoint file
     trainer["resume_from_checkpoint"] = None # example: "../results/ProtoNet/version_11/checkpoints/epoch=2-step=1499.ckpt"
 
     # The maximum epochs to run
-    trainer["max_epochs"] = 60
+    trainer["max_epochs"] = 10
 
     # potential functionalities added to the trainer.
     trainer["callbacks"] = [{"class_path": "pytorch_lightning.callbacks.LearningRateMonitor", 

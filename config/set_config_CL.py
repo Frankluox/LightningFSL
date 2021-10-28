@@ -17,14 +17,14 @@ def config():
     #if training, set to False
     config_dict["load_pretrained"] = False
     #if training, set to False
-    config_dict["is_test"] = False
+    config_dict["is_test"] = True
     if config_dict["is_test"]:
         #if testing, specify the total rounds of testing. Default: 5
         config_dict["num_test"] = 5
         config_dict["load_pretrained"] = True
         #specify pretrained path for testing.
     if config_dict["load_pretrained"]:
-        config_dict["pre_trained_path"] = "../results/CC/version_11/checkpoints/epoch=52-step=26499.ckpt"
+        config_dict["pre_trained_path"] = "../results/CL/test/version_21/checkpoints/epoch=53-step=26999.ckpt"
         #only load the backbone.
         config_dict["load_backbone_only"] = False
 
@@ -62,11 +62,11 @@ def config():
     if multi_gpu:
         trainer["accelerator"] = "ddp"
         trainer["sync_batchnorm"] = False
-        trainer["gpus"] = [4,5]
+        trainer["gpus"] = [0,1]
         trainer["plugins"] = [{"class_path": "plugins.modified_DDPPlugin"}]
     else:
         trainer["accelerator"] = None
-        trainer["gpus"] = [4]
+        trainer["gpus"] = [2]
         trainer["sync_batchnorm"] = False
     
     # whether resume from a given checkpoint file
@@ -101,10 +101,10 @@ def config():
     #important
     per_gpu_train_batchsize = 1
     train_shot = 5
-    test_shot = 5
+    test_shot = 1
 
     #less important
-    per_gpu_val_batchsize = 2
+    per_gpu_val_batchsize = 1
     per_gpu_test_batchsize = 8
     way = 5
     val_shot = 5
@@ -169,7 +169,7 @@ def config():
     
     model["is_DDP"] = multi_gpu
     model["way"] = way
-    model["train_shot"] = 5
+    model["train_shot"] = train_shot
     model["val_shot"] = val_shot
     model["test_shot"] = test_shot
     model["num_query"] = num_query

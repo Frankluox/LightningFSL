@@ -34,6 +34,7 @@ Implemented results on few-shot learning datasets with ResNet-12 backbone. The a
 |S2M2+Logistic_Regression|62.36+-0.42|82.01+-0.24|
 |[MoCo-v2](https://arxiv.org/abs/1911.05722)(unsupervised)|52.03+-0.33|72.94+-0.29|
 |[Exemplar-v2](https://arxiv.org/abs/2006.06606)|59.02+-0.24|77.23+-0.16|
+|[PN+CL](https://arxiv.org/abs/2107.09242)|63.44+-0.44|79.42+-0.06|
 
 ## Advanced:
 
