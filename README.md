@@ -1,6 +1,10 @@
 # Few-Shot Learning in Pytorch-Lightning
-A friendly codebase for Few-Shot Learning based on pytorch-lightning.
+A friendly codebase for Few-Shot Learning based on pytorch-lightning. This repository also provides official implementations of: 
 
+[Boosting Few-Shot Classification with View-Learnable Contrastive Learning](https://arxiv.org/abs/2107.09242)(ICME 2021)
+[Rectifying the Shortcut Learning of Background: Shared Object Concentration for Few-Shot Image Recognition](https://arxiv.org/abs/2107.07746)(NeurIPS 2021)
+
+Some reimplementations of other FSL algorithms are provided as well.
 
 ## General guide:
 To get started, the followings need to be done:
