@@ -1,7 +1,7 @@
 from pytorch_lightning import LightningDataModule
 from dataset_and_process.datasets import get_dataset
 from dataset_and_process.samplers import CategoriesSampler
-from typing import Optional
+from typing import Optional, Dict
 from torch.utils.data import DataLoader
 from torch.utils.data.distributed import DistributedSampler
 class FewShotDataModule(LightningDataModule):
@@ -60,6 +60,8 @@ class FewShotDataModule(LightningDataModule):
         num_query: int = 15,
         drop_last: Optional[bool] = None,
         num_gpus: int = 1,
+        train_dataset_params: Dict = {},
+        val_test_dataset_params: Dict = {},
     ) -> None:
         super().__init__()
         self.train_data_root = train_data_root
@@ -85,6 +87,8 @@ class FewShotDataModule(LightningDataModule):
         self.num_query = num_query
         self.drop_last = drop_last
         self.num_gpus = num_gpus
+        self.train_dataset_params = train_dataset_params
+        self.val_test_dataset_params = val_test_dataset_params
         
     @property
     def train_dataset_cls(self):
@@ -103,16 +107,19 @@ class FewShotDataModule(LightningDataModule):
         self.train_dataset = self.train_dataset_cls(
             self.train_data_root,
             mode="train",
+            **self.train_dataset_params
         )
     def set_val_dataset(self):
         self.val_dataset = self.val_test_dataset_cls(
             self.val_test_data_root,
             mode="val",
+            **self.val_test_dataset_params
         )
     def set_test_dataset(self):
         self.test_dataset = self.val_test_dataset_cls(
             self.val_test_data_root,
             mode="test",
+            **self.val_test_dataset_params
         )
     def set_sampler(self):
         """Set sampler for training, validation and testing.

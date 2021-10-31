@@ -3,13 +3,12 @@ import numpy as np
 from .miniImageNet import miniImageNet
 
 class miniImageNetMixedwithContrastive(miniImageNet):
-    r"""miniImageNet for contrastive learning mixed with normal training or few-shot learning.
+    r"""Dataset for contrastive learning mixed with normal training or few-shot learning.
     """
-    def __init__(self, root: str, mode: str) -> None:
+    def __init__(self, root: str, mode: str, image_sz = 84) -> None:
         super().__init__(root, mode)
-        image_size = 84
         self.transform = transforms.Compose([
-            transforms.RandomResizedCrop(image_size),
+            transforms.RandomResizedCrop(image_sz),
             transforms.RandomHorizontalFlip(),
             transforms.ToTensor(),
             transforms.Normalize(np.array([0.4712, 0.4499, 0.4031]),
@@ -23,7 +22,7 @@ class miniImageNetMixedwithContrastive(miniImageNet):
             transforms.RandomApply([
                 transforms.GaussianBlur((3, 3), (1.0, 2.0))],
                 p = 0.2),
-            transforms.RandomResizedCrop(image_size),
+            transforms.RandomResizedCrop(image_sz),
             transforms.ToTensor(),
             transforms.Normalize(np.array([0.4712, 0.4499, 0.4031]),
                                 np.array([0.2726, 0.2634, 0.2794]))])

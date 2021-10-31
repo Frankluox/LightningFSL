@@ -1,5 +1,6 @@
 from .classifier.proto_head import PN_head
 from .classifier.CC_head import CC_head
+from .classifier.SOC import SOC
 from importlib import import_module
 
 def get_backbone(architecture_name, *args, **kwargs):
