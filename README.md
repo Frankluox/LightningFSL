@@ -1,5 +1,5 @@
 # Few-Shot Learning in Pytorch-Lightning
-A codebase for Few-Shot Learning (FSL) using the framework of [pytorch-lightning](https://www.pytorchlightning.ai/). A number of implementations of FSL algorithms are provided, including two official ones
+A unified codebase for Few-Shot Learning (FSL) using the framework of [pytorch-lightning](https://www.pytorchlightning.ai/), enabling quick implementaion of new FSL algorithms. A number of implementations of FSL algorithms are provided, including two official ones
 
 [Boosting Few-Shot Classification with View-Learnable Contrastive Learning](https://arxiv.org/abs/2107.09242) (ICME 2021)
 
@@ -93,7 +93,7 @@ It is quite simple to implement your own algorithm. most of algorithms only need
 #### architectures
 **Need modification.** We divide general FSL architectures into feature extractor and classification head, specified respectively in `architectures/feature_extractor` and `architectures/classifier`. These are just common `nn` modules in pytorch, which shall be embedded in LightningModule mentioned above. The recommended feature extractor is ResNet12, which is popular and shows promising performance. The classification head, however, varies with algorithms and need specific designs.
 
-#### Datases and DataModule
+#### Datasets and DataModule
 **It is usually not needed for modification.** Pytorch-lightning unifies data processing across training, val and testing into a single LightningDataModule. We disign such a datamodule in `dataset_and_process/datamodules/few_shot_datamodule.py` for FSL, enabling episodic/non-episodic sampling and DDP for multi-GPU fast training. The definition of Dataset itself is in `dataset_and_process/datasets`, specified as common pytorch datasets class. There is no need to modify the dataset module unless new datasets are involved.
 
 #### Callbacks and Plugins
