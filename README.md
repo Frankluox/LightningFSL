@@ -76,12 +76,12 @@ bash run.sh
 ```
 
 3. Training Meta-baseline:
-    - This is a two-stage algorithm, with the first stage being CEloss-pretraining, followed by ProtoNet finetuning. So a two-stage training is need. The first training uses the configuration file `config/set_config_meta_baseline_pretrain.py`. The second uses `config/set_config_meta_baseline_finetune.py`, with pre-training model path from the first stage, specified by the parameter`pre_trained_pathin` in the configuration file.
+    - This is a two-stage algorithm, with the first stage being CEloss-pretraining, followed by ProtoNet finetuning. So a two-stage training is need. The first training uses the configuration file `config/set_config_meta_baseline_pretrain.py`. The second uses `config/set_config_meta_baseline_finetune.py`, with pre-training model path from the first stage, specified by the parameter`pre_trained_path` in the configuration file.
 
 4. Training COSOC:
     - For pre-training Exemplar, choose configuration file `config/set_config_MoCo.py` and set parameter `is_exampler` to True.
-    - For runing COS algorithm, run the command `python COS.py --[save_dir]`. `[save_dir]` specifies the saving directory of all foreground objects.
-    - For runing a FSL algorithm with COS, choose configuration file `config/set_config_COSOC.py` and set parameter `data["train_dataset_params"]` to the directory of saved data of COS algorithm.
+    - For runing COS algorithm, run the command `python COS.py --save_dir [save_dir] --pretrained_Exemplar_path [model_path] --dataset_path [data_path]`. `[save_dir]` specifies the saving directory of all foreground objects, `[model_path]` and `[data_path]` specify the pathes of pre-trained model and datasets, respectively.
+    - For runing a FSL algorithm with COS, choose configuration file `config/set_config_COSOC.py` and set parameter `data["train_dataset_params"]` to the directory of saved data of COS algorithm, `pre_trained_path` to the directory of pre-trained Exemplar.
 
 5. Testing:
     - Choose the same configuration file as training, set parameter `is_test` to True, `pre_trained_path` to the directory of checkpoint model (with suffix '.ckpt'), and other parameters (e.g. shot, batchsize) as you disire.
@@ -96,20 +96,22 @@ bash run.sh
 It is quite simple to implement your own algorithm. most of algorithms only need creation of a new LightningModule and a classifier head. 
 
 #### run.py
-The file `run.py` wraps the whole training and testing procedure of a FSL algorithm, for which all configurations are specified by an individual yaml file contained in the config folder; see `config/set_config_PN.py` for example. the file contains an python class `Few_Shot_CLI`, inherited from [LightningCLI](https://pytorch-lightning.readthedocs.io/en/latest/common/lightning_cli.html), adding new hyperpameters (Also specified in configuration file) as well as testing standard for FSL. It is usually not needed to modify this file.
+The file `run.py` wraps the whole training and testing procedure of a FSL algorithm, for which all configurations are specified by an individual yaml file contained in the `/config` folder; see `config/set_config_PN.py` for example. The file `run.py` contains a python class `Few_Shot_CLI`, inherited from [LightningCLI](https://pytorch-lightning.readthedocs.io/en/latest/common/lightning_cli.html). It adds new hyperpameters (Also specified in configuration file) as well as testing process for FSL. It is usually not needed to modify this file.
 
 #### FewShotModule
 The folder `modules` contains LightningModules for FSL models, specifying model components, optimizers, logging metrics and train/val/test processes. Notably, `modules/base_module.py` contains the template module for all FSL models. All other modules inherit the base module; see `modules/PN.py` and `modules/cosine_classifier.py` for how episodic/non-episodic models inherit from the base module.
 
 #### architectures
-We divide general FSL architectures into feature extractor and classification head, specified respectively in `architectures/feature_extractor` and `architectures/classifier`. These are just common nn modules in pytorch. The recommended feature extractor is ResNet12, which is popular and shows promising performance. The classification head, however, varies with algorithms and need specific designs.
+We divide general FSL architectures into feature extractor and classification head, specified respectively in `architectures/feature_extractor` and `architectures/classifier`. These are just common `nn` modules in pytorch, which shall be embedded in LightningModule mentioned above. The recommended feature extractor is ResNet12, which is popular and shows promising performance. The classification head, however, varies with algorithms and need specific designs.
 
 #### Datases and DataModule
-Pytorch-lighning unifies data processing across training, val and testing into a single LightningDataModule. We disign such a datamodule in `dataset_and_process/datamodules/few_shot_datamodule.py` for FSL, enabling episodic/non-episodic sampling and DDP for multi-GPU fast training. The definition of Dataset itself is in `dataset_and_process/datasets`, specified as common pytorch datasets class. There is no need to modify the dataset module unless new datasets are involved.
+Pytorch-lightning unifies data processing across training, val and testing into a single LightningDataModule. We disign such a datamodule in `dataset_and_process/datamodules/few_shot_datamodule.py` for FSL, enabling episodic/non-episodic sampling and DDP for multi-GPU fast training. The definition of Dataset itself is in `dataset_and_process/datasets`, specified as common pytorch datasets class. There is no need to modify the dataset module unless new datasets are involved.
 
-#### callbacks and Plugins
+#### Callbacks and Plugins
 See [documentation](https://pytorch-lightning.readthedocs.io/en/latest/) of pytorch-lightning for detailed introductions of callbacks and Plugins. They are additional functionalities added to the system in a modular fashion.
 
+#### Configuration
+See [LightningCLI](https://pytorch-lightning.readthedocs.io/en/latest/common/lightning_cli.html) for how a yaml configuration file works. For each algorithm, there needs one specific configuration file, though most of the configurations are the same across algorithms. Thus it is convenient to copy one configuration and change it for a new algorithm.
 
 
 
