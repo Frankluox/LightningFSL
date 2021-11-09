@@ -3,20 +3,18 @@ A codebase for Few-Shot Learning (FSL) using the framework of [pytorch-lightning
 
 [Boosting Few-Shot Classification with View-Learnable Contrastive Learning](https://arxiv.org/abs/2107.09242) (ICME 2021)
 
-and
-
 [Rectifying the Shortcut Learning of Background for Few-Shot Learning](https://arxiv.org/abs/2107.07746) (NeurIPS 2021)
 
 Currently, we are sorry for potential drawbacks or bugs in our codes. We will make the codebase more robust in a few days.
 
 ## Contents
 1. [Advantages](#Advantages)
-2. [Few-shot classification Results](#Implemented Few-shot classification Results (will be gradually updated))
-   - [miniImageNet results](#miniImageNet Dataset)
-3. [General Guide](#General Guide)
+2. [Few-shot classification Results](#Implemented-Few-shot-classification-Results)
+   - [miniImageNet results](#miniImageNet-Dataset)
+3. [General Guide](#General-Guide)
    - [Installation](#installation)
-   - [Runing a model](#running an implemented few-shot model)
-   - [Creating new algorithms](#Creating a new few-shot algorithm)
+   - [Runing a model](#running-an-implemented-few-shot-model)
+   - [Creating new algorithms](#Creating-a-new-few-shot-algorithm)
 
 
 
@@ -31,7 +29,10 @@ This repository builds on top of [LightningCLI](https://pytorch-lightning.readth
    - Pytorch-lightning provides our codebase with a clean and modular structure. Built on top of LightningCLI, our codebase unifies necessary basic components of FSL, making it easy to implement a brand-new algorithm. An impletation of an algorithm usually only requires three short additional files, one specifying the lightningModule, one specifying the classifer head, and the last one specifying all configurations. For example, see the code of ProtoNet (`modules/PN.py`, `architectures/classifier/proto_head.py`) and cosine classifier (`modules/cosine_classifier.py`, `architectures/classifier/CC_head.py`.
 5. Enabling both episodic/non-episodic algorithms.
 
-## Implemented Few-shot classification Results (will be gradually updated)
+## Implemented Few-shot classification Results 
+
+The results will be gradually updated.
+
 Implemented results on few-shot learning datasets with ResNet-12 backbone. The average results of 2,000 randomly sampled episodes repeated 5 times for 1/5-shot evaluation with 95% confidence interval are reported. 
 
 ### miniImageNet Dataset
