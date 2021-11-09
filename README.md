@@ -56,7 +56,7 @@ To understand the code correctly, it is highly recommended to first quickly go t
 Just run the command:
 
 ```bash
-pip install requirements.txt
+pip install -r requirements.txt
 ```
 
 
