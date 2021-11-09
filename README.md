@@ -19,7 +19,7 @@ Currently, we are sorry for potential drawbacks or bugs in our codes. We will ma
 
 
 ## Advantages:
-This repository builds on top of [LightningCLI](https://pytorch-lightning.readthedocs.io/en/latest/common/lightning_cli.html), which is very convenient to use after being familiar with this tool. 
+This repository is built on top of [LightningCLI](https://pytorch-lightning.readthedocs.io/en/latest/common/lightning_cli.html), which is very convenient to use after being familiar with this tool. 
 
 1. Enabling multi-GPU training
    - Our implementation of FSL framework allows [DistributedDataParallel (DDP)](https://pytorch.org/docs/stable/notes/ddp.html) to be included in the training of Few-Shot Learning, which is not available before to the best of our knowledge. Previous researches use [DataParallel (DP)](https://pytorch.org/docs/stable/generated/torch.nn.DataParallel.html) instead, which is inefficient and requires more computation storages. We achieve this by modifying the DDP sampler of Pytorch, making it possible to sample few-shot learning tasks among devices. See `dataset_and_process/samplers.py` for details.
@@ -70,26 +70,17 @@ pip install -r requirements.txt
 2. Training (Except for Meta-baseline and COSOC):
     - Choose the corresponding configuration file in 'config'(e.g.`set_config_PN.py` for PN model), set  inside the parameter 'is_test' to False, set GPU ids (multi-GPU or not), dataset directory, logging dir as well as other parameters you would like to change.
     - modify the first line in run.sh (e.g., `python config/set_config_PN.py`).
-    - To begin the running, run the command 
-```bash
-bash run.sh
-```
-
+    - To begin the running, run the command `bash run.sh`
 3. Training Meta-baseline:
     - This is a two-stage algorithm, with the first stage being CEloss-pretraining, followed by ProtoNet finetuning. So a two-stage training is need. The first training uses the configuration file `config/set_config_meta_baseline_pretrain.py`. The second uses `config/set_config_meta_baseline_finetune.py`, with pre-training model path from the first stage, specified by the parameter`pre_trained_path` in the configuration file.
-
 4. Training COSOC:
     - For pre-training Exemplar, choose configuration file `config/set_config_MoCo.py` and set parameter `is_exampler` to True.
     - For runing COS algorithm, run the command `python COS.py --save_dir [save_dir] --pretrained_Exemplar_path [model_path] --dataset_path [data_path]`. `[save_dir]` specifies the saving directory of all foreground objects, `[model_path]` and `[data_path]` specify the pathes of pre-trained model and datasets, respectively.
     - For runing a FSL algorithm with COS, choose configuration file `config/set_config_COSOC.py` and set parameter `data["train_dataset_params"]` to the directory of saved data of COS algorithm, `pre_trained_path` to the directory of pre-trained Exemplar.
-
 5. Testing:
     - Choose the same configuration file as training, set parameter `is_test` to True, `pre_trained_path` to the directory of checkpoint model (with suffix '.ckpt'), and other parameters (e.g. shot, batchsize) as you disire.
     - modify the first line in run.sh (e.g., `python config/set_config_PN.py`).
-    - To begin the testing, run the command 
-```bash
-bash run.sh
-```
+    - To begin the testing, run the command `bash run.sh`
 
 ### Creating a new few-shot algorithm
 
