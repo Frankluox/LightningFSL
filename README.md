@@ -63,11 +63,11 @@ pip install requirements.txt
 
 ### running an implemented few-shot model
 
-Downloading Datasets (other datasets uploaded soon):
+1. Downloading Datasets (other datasets uploaded soon):
 
 [miniImageNet](https://1drv.ms/u/s!AkYSH77Z8H6qa872NXTDnt-6bwY?e=XcKJgH)
 
-Training (Except for Meta-baseline and COSOC):
+2. Training (Except for Meta-baseline and COSOC):
     - Choose the corresponding configuration file in 'config'(e.g.`set_config_PN.py` for PN model), set  inside the parameter 'is_test' to False, set GPU ids (multi-GPU or not), dataset directory, logging dir as well as other parameters you would like to change.
     - modify the first line in run.sh (e.g., `python config/set_config_PN.py`).
     - To begin the running, run the command 
@@ -75,15 +75,15 @@ Training (Except for Meta-baseline and COSOC):
 bash run.sh
 ```
 
-Training Meta-baseline:
+3. Training Meta-baseline:
     - This is a two-stage algorithm, with the first stage being CEloss-pretraining, followed by ProtoNet finetuning. So a two-stage training is need. The first training uses the configuration file `config/set_config_meta_baseline_pretrain.py`. The second uses `config/set_config_meta_baseline_finetune.py`, with pre-training model path from the first stage, specified by the parameter`pre_trained_pathin` in the configuration file.
 
-Training COSOC:
+4. Training COSOC:
     - For pre-training Exemplar, choose configuration file `config/set_config_MoCo.py` and set parameter `is_exampler` to True.
     - For runing COS algorithm, run the command `python COS.py --[save_dir]`. `[save_dir]` specifies the saving directory of all foreground objects.
     - For runing a FSL algorithm with COS, choose configuration file `config/set_config_COSOC.py` and set parameter `data["train_dataset_params"]` to the directory of saved data of COS algorithm.
 
-Testing:
+5. Testing:
     - Choose the same configuration file as training, set parameter `is_test` to True, `pre_trained_path` to the directory of checkpoint model (with suffix '.ckpt'), and other parameters (e.g. shot, batchsize) as you disire.
     - modify the first line in run.sh (e.g., `python config/set_config_PN.py`).
     - To begin the testing, run the command 
