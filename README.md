@@ -1,4 +1,4 @@
-# Few-Shot Learning in Pytorch-Lightning
+# LightningFSL: Few-Shot Learning in Pytorch-Lightning
 [![LICENSE](https://img.shields.io/badge/license-MIT-green)](https://github.com/yaoyao-liu/mnemonics/blob/master/LICENSE)
 [![Python](https://img.shields.io/badge/python-3.9-blue.svg)](https://www.python.org/)
 ![last commit](https://img.shields.io/github/last-commit/FrankLuox/FewShotCodeBase)
