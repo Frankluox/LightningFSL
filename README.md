@@ -1,4 +1,8 @@
 # Few-Shot Learning in Pytorch-Lightning
+[![LICENSE](https://img.shields.io/badge/license-MIT-green)](https://github.com/yaoyao-liu/mnemonics/blob/master/LICENSE)
+[![Python](https://img.shields.io/badge/python-3.9-blue.svg)](https://www.python.org/)
+![last commit](https://img.shields.io/github/last-commit/FrankLuox/FewShotCodeBase)
+
 A unified codebase for Few-Shot Learning (FSL) using the framework of [pytorch-lightning](https://www.pytorchlightning.ai/), enabling quick implementaion of new FSL algorithms. A number of implementations of FSL algorithms are provided, including two official ones
 
 [Boosting Few-Shot Classification with View-Learnable Contrastive Learning](https://arxiv.org/abs/2107.09242) (ICME 2021)
@@ -25,9 +29,11 @@ This repository is built on top of [LightningCLI](https://pytorch-lightning.read
    - Our implementation of FSL framework allows [DistributedDataParallel (DDP)](https://pytorch.org/docs/stable/notes/ddp.html) to be included in the training of Few-Shot Learning, which is not available before to the best of our knowledge. Previous researches use [DataParallel (DP)](https://pytorch.org/docs/stable/generated/torch.nn.DataParallel.html) instead, which is inefficient and requires more computation storages. We achieve this by modifying the DDP sampler of Pytorch, making it possible to sample few-shot learning tasks among devices. See `dataset_and_process/samplers.py` for details.
 2. High reimplemented accuracy
    - Our reimplementations of some FSL algorithms achieve strong performance. For example, our ResNet12 implementation of ProtoNet and Cosine Classifier achieves 76+ and 80+ accuracy on 5w5s task of miniImageNet, respectively. All results can be reimplemented using pre-defined configuration files in `config/`.
-4. Quick and convenient creation of new algorithms
+3. Quick and convenient creation of new algorithms
    - Pytorch-lightning provides our codebase with a clean and modular structure. Built on top of LightningCLI, our codebase unifies necessary basic components of FSL, making it easy to implement a brand-new algorithm. An impletation of an algorithm usually only requires three short additional files, one specifying the lightningModule, one specifying the classifer head, and the last one specifying all configurations. For example, see the code of ProtoNet (`modules/PN.py`, `architectures/classifier/proto_head.py`) and cosine classifier (`modules/cosine_classifier.py`, `architectures/classifier/CC_head.py`.
-5. Enabling both episodic/non-episodic algorithms.
+4. Easy reproducability
+   - Every time of running results in a full copy of yaml configuration file in the logging directory, enabling exact reproducability (by using the direct yaml file instead of creating a new one).
+4. Enabling both episodic/non-episodic algorithms
    - Switching with a single parameter `is_meta` in the configuration file.
 
 ## Implemented Few-shot classification Results 
