@@ -70,7 +70,7 @@ pip install -r requirements.txt
 ### running an implemented few-shot model
 
 1. Downloading Datasets (other datasets uploaded soon):
-    - [miniImageNet](https://1drv.ms/u/s!AkYSH77Z8H6qa872NXTDnt-6bwY?e=XcKJgH) [miniImageNet-new in COSOC](https://1drv.ms/u/s!AkYSH77Z8H6qc5nj2gyXURV4XuU?e=cnUVvQ)
+    - [miniImageNet](https://1drv.ms/u/s!AkYSH77Z8H6qa872NXTDnt-6bwY?e=XcKJgH), [miniImageNet-new(in COSOC)](https://1drv.ms/u/s!AkYSH77Z8H6qc5nj2gyXURV4XuU?e=cnUVvQ)
 2. Training (Except for Meta-baseline and COSOC):
     - Choose the corresponding configuration file in 'config'(e.g.`set_config_PN.py` for PN model), set  inside the parameter 'is_test' to False, set GPU ids (multi-GPU or not), dataset directory, logging dir as well as other parameters you would like to change.
     - modify the first line in run.sh (e.g., `python config/set_config_PN.py`).
