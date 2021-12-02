@@ -9,7 +9,7 @@ A unified codebase for Few-Shot Learning (FSL) using the framework of [pytorch-l
 
 [Rectifying the Shortcut Learning of Background for Few-Shot Learning](https://arxiv.org/abs/2107.07746) (NeurIPS 2021)
 
-Currently, we are sorry for potential drawbacks or bugs in our codes. We will make the codebase more robust in a few days.
+
 
 ## Contents
 1. [Advantages](#Advantages)
@@ -38,7 +38,7 @@ This repository is built on top of [LightningCLI](https://pytorch-lightning.read
 
 ## Implemented Few-shot classification Results 
 
-Implemented results on few-shot classification datasets. The average results of 2,000 randomly sampled episodes repeated 5 times for 1/5-shot evaluation with 95% confidence interval are reported. The results will be gradually updated.
+Implemented results on few-shot classification datasets. The average results of 2,000 randomly sampled episodes repeated 5 times for 1/5-shot evaluation with 95% confidence interval are reported.
 
 ### miniImageNet Dataset
 
@@ -69,7 +69,7 @@ pip install -r requirements.txt
 
 ### running an implemented few-shot model
 
-1. Downloading Datasets (other datasets uploaded soon):
+1. Downloading Datasets:
     - [miniImageNet](https://1drv.ms/u/s!AkYSH77Z8H6qa872NXTDnt-6bwY?e=XcKJgH), [miniImageNet-new(in COSOC)](https://1drv.ms/u/s!AkYSH77Z8H6qc5nj2gyXURV4XuU?e=cnUVvQ)
 2. Training (Except for Meta-baseline and COSOC):
     - Choose the corresponding configuration file in 'config'(e.g.`set_config_PN.py` for PN model), set  inside the parameter 'is_test' to False, set GPU ids (multi-GPU or not), dataset directory, logging dir as well as other parameters you would like to change.
