@@ -3,7 +3,7 @@
 [![Python](https://img.shields.io/badge/python-3.9-blue.svg)](https://www.python.org/)
 ![last commit](https://img.shields.io/github/last-commit/FrankLuox/FewShotCodeBase)
 
-A unified codebase for Few-Shot Learning (FSL) using the framework of [pytorch-lightning](https://www.pytorchlightning.ai/), enabling quick implementaion of new FSL algorithms. A number of implementations of FSL algorithms are provided, including two official ones
+In this repo, a number of [pytorch-lightning](https://www.pytorchlightning.ai/) implementations of FSL algorithms are provided, including two official ones
 
 [Boosting Few-Shot Classification with View-Learnable Contrastive Learning](https://arxiv.org/abs/2107.09242) (ICME 2021)
 
