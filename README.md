@@ -42,17 +42,17 @@ Implemented results on few-shot classification datasets. The average results of 
 
 ### miniImageNet Dataset
 
-|Models|Backbone|5-way 1-shot|5-way 5-shot|
-|:----:|:----:|:----:|:----:|
-|[Protypical Networks](https://arxiv.org/abs/1703.05175)|ResNet12|61.19+-0.40 |  76.50+-0.45| 
-|[Cosine Classifier](https://arxiv.org/abs/1804.09458)|ResNet12|63.89+-0.44|80.94+-0.05|
-|[Meta-Baseline](https://arxiv.org/abs/2003.04390)|ResNet12|62.65+-0.65|79.10+-0.29|
-|[S2M2](https://arxiv.org/abs/1907.12087)|WRN-28-10|58.85+-0.20|81.83+-0.15|
-|[S2M2+Logistic_Regression](https://arxiv.org/abs/1907.12087)|WRN-28-10|62.36+-0.42|82.01+-0.24|
-|[MoCo-v2](https://arxiv.org/abs/1911.05722)(unsupervised)|ResNet12|52.03+-0.33|72.94+-0.29|
-|[Exemplar-v2](https://arxiv.org/abs/2006.06606)|ResNet12|59.02+-0.24|77.23+-0.16|
-|[PN+CL](https://arxiv.org/abs/2107.09242)|ResNet12|63.44+-0.44|79.42+-0.06|
-|[COSOC](https://arxiv.org/abs/2107.07746)|ResNet12|69.28+0.49|85.16+-0.42|
+|Models|Backbone|5-way 1-shot|5-way 5-shot|pretrained models|
+|:----:|:----:|:----:|:----:|:----:|
+|[Protypical Networks](https://arxiv.org/abs/1703.05175)|ResNet12|61.19+-0.40 |  76.50+-0.45|[link](https://1drv.ms/u/s!AkYSH77Z8H6qerTmSXV5hKUn4_k?e=ehNvQc)|
+|[Cosine Classifier](https://arxiv.org/abs/1804.09458)|ResNet12|63.89+-0.44|80.94+-0.05|[link](https://1drv.ms/u/s!AkYSH77Z8H6qeXoKteRX-M0aGYM?e=iijBMH)|
+|[Meta-Baseline](https://arxiv.org/abs/2003.04390)|ResNet12|62.65+-0.65|79.10+-0.29|[link](https://1drv.ms/u/s!AkYSH77Z8H6qfoiZ_gwC_Zz-2H0?e=RSdTNV)|
+|[S2M2](https://arxiv.org/abs/1907.12087)|WRN-28-10|58.85+-0.20|81.83+-0.15|[link](https://1drv.ms/u/s!AkYSH77Z8H6qgQH83RKiE6eJ5OJ8?e=UEZEeJ)|
+|[S2M2+Logistic_Regression](https://arxiv.org/abs/1907.12087)|WRN-28-10|62.36+-0.42|82.01+-0.24||
+|[MoCo-v2](https://arxiv.org/abs/1911.05722)(unsupervised)|ResNet12|52.03+-0.33|72.94+-0.29|[link](https://1drv.ms/u/s!AkYSH77Z8H6qfF1I00KaGUTDiGI?e=ZgDbOb)|
+|[Exemplar-v2](https://arxiv.org/abs/2006.06606)|ResNet12|59.02+-0.24|77.23+-0.16|[link](https://1drv.ms/u/s!AkYSH77Z8H6qgQCsqADO7hHJN0w6?e=JSeH17)|
+|[PN+CL](https://arxiv.org/abs/2107.09242)|ResNet12|63.44+-0.44|79.42+-0.06|[link](https://1drv.ms/u/s!AkYSH77Z8H6qf5eh7VTlClM2c2k?e=Az19Gp)|
+|[COSOC](https://arxiv.org/abs/2107.07746)|ResNet12|69.28+0.49|85.16+-0.42|[link](https://1drv.ms/u/s!AkYSH77Z8H6qfYEYSIpQp0iJQRE?e=S3zaLY)|
 
 
 ## General Guide
