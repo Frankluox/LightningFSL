@@ -39,6 +39,7 @@ def config():
         multi_gpu = False
     #The seed
     seed = 10
+    config_dict["seed"] = seed
 
     #The logging dirname: logdir/exp_name/
     log_dir = "../results/"

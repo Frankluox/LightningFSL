@@ -9,6 +9,7 @@ import numpy as np
 import json
 import os
 import utils
+from pytorch_lightning.utilities.seed import seed_everything
 class Few_Shot_CLI(LightningCLI):
     """Add testing, model specifying and loading proccess into LightningCLI.
            Add four config parameters:
@@ -20,6 +21,7 @@ class Few_Shot_CLI(LightningCLI):
              --num_test: The number of processes of implementing testing.
                          The average accuracy and 95% confidence interval across
                          all repeated processes will be calculated.
+             --seed: The seed of training and testing.
     """
     def __init__(self,**kwargs) -> None:
         """
@@ -70,6 +72,13 @@ class Few_Shot_CLI(LightningCLI):
                   The average accuracy and 95% confidence interval across\
                   all repeated processes will be calculated."
         )
+        parser.add_argument(
+            'seed',
+            type=int,
+            default=5,
+            help=r"The seed of training and testing."
+        )
+
     def parse_arguments(self) -> None:
         """Rewrite for skipping check."""
         self.config = self.parser.parse_args(_skip_check = True)
@@ -99,6 +108,7 @@ class Few_Shot_CLI(LightningCLI):
             self.trainer.fit(**self.fit_kwargs)
     def after_fit(self):
         """Runs testing and logs the results"""
+        seed_everything(self.config["seed"])
         if self.config["is_test"]:
             acc_list = []
             for _ in range(self.config["num_test"]):

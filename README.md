@@ -1,15 +1,15 @@
-# LightningFSL: Few-Shot Learning in Pytorch-Lightning
+# LightningFSL: Few-Shot Learning with Pytorch-Lightning
 [![LICENSE](https://img.shields.io/badge/license-MIT-green)](https://github.com/yaoyao-liu/mnemonics/blob/master/LICENSE)
 [![Python](https://img.shields.io/badge/python-3.9-blue.svg)](https://www.python.org/)
 ![last commit](https://img.shields.io/github/last-commit/FrankLuox/FewShotCodeBase)
 
-A unified codebase for Few-Shot Learning (FSL) using the framework of [pytorch-lightning](https://www.pytorchlightning.ai/), enabling quick implementaion of new FSL algorithms. A number of implementations of FSL algorithms are provided, including two official ones
+In this repo, a number of [pytorch-lightning](https://www.pytorchlightning.ai/) implementations of FSL algorithms are provided, including two official ones
 
 [Boosting Few-Shot Classification with View-Learnable Contrastive Learning](https://arxiv.org/abs/2107.09242) (ICME 2021)
 
 [Rectifying the Shortcut Learning of Background for Few-Shot Learning](https://arxiv.org/abs/2107.07746) (NeurIPS 2021)
 
-Currently, we are sorry for potential drawbacks or bugs in our codes. We will make the codebase more robust in a few days.
+
 
 ## Contents
 1. [Advantages](#Advantages)
@@ -38,21 +38,21 @@ This repository is built on top of [LightningCLI](https://pytorch-lightning.read
 
 ## Implemented Few-shot classification Results 
 
-Implemented results on few-shot classification datasets. The average results of 2,000 randomly sampled episodes repeated 5 times for 1/5-shot evaluation with 95% confidence interval are reported. The results will be gradually updated.
+Implemented results on few-shot classification datasets. The average results of 2,000 randomly sampled episodes repeated 5 times for 1/5-shot evaluation with 95% confidence interval are reported.
 
 ### miniImageNet Dataset
 
-|Models|Backbone|5-way 1-shot|5-way 5-shot|
-|:----:|:----:|:----:|:----:|
-|[Protypical Networks](https://arxiv.org/abs/1703.05175)|ResNet12|61.19+-0.40 |  76.50+-0.45| 
-|[Cosine Classifier](https://arxiv.org/abs/1804.09458)|ResNet12|63.89+-0.44|80.94+-0.05|
-|[Meta-Baseline](https://arxiv.org/abs/2003.04390)|ResNet12|62.65+-0.65|79.10+-0.29|
-|[S2M2](https://arxiv.org/abs/1907.12087)|WRN-28-10|58.85+-0.20|81.83+-0.15|
-|[S2M2+Logistic_Regression](https://arxiv.org/abs/1907.12087)|WRN-28-10|62.36+-0.42|82.01+-0.24|
-|[MoCo-v2](https://arxiv.org/abs/1911.05722)(unsupervised)|ResNet12|52.03+-0.33|72.94+-0.29|
-|[Exemplar-v2](https://arxiv.org/abs/2006.06606)|ResNet12|59.02+-0.24|77.23+-0.16|
-|[PN+CL](https://arxiv.org/abs/2107.09242)|ResNet12|63.44+-0.44|79.42+-0.06|
-|[COSOC](https://arxiv.org/abs/2107.07746)|ResNet12|69.28+0.49|85.16+-0.42|
+|Models|Backbone|5-way 1-shot|5-way 5-shot|pretrained models|
+|:----:|:----:|:----:|:----:|:----:|
+|[Protypical Networks](https://arxiv.org/abs/1703.05175)|ResNet12|61.19+-0.40 |  76.50+-0.45|[link](https://1drv.ms/u/s!AkYSH77Z8H6qerTmSXV5hKUn4_k?e=ehNvQc)|
+|[Cosine Classifier](https://arxiv.org/abs/1804.09458)|ResNet12|63.89+-0.44|80.94+-0.05|[link](https://1drv.ms/u/s!AkYSH77Z8H6qeXoKteRX-M0aGYM?e=iijBMH)|
+|[Meta-Baseline](https://arxiv.org/abs/2003.04390)|ResNet12|62.65+-0.65|79.10+-0.29|[link](https://1drv.ms/u/s!AkYSH77Z8H6qfoiZ_gwC_Zz-2H0?e=RSdTNV)|
+|[S2M2](https://arxiv.org/abs/1907.12087)|WRN-28-10|58.85+-0.20|81.83+-0.15|[link](https://1drv.ms/u/s!AkYSH77Z8H6qgQH83RKiE6eJ5OJ8?e=UEZEeJ)|
+|[S2M2+Logistic_Regression](https://arxiv.org/abs/1907.12087)|WRN-28-10|62.36+-0.42|82.01+-0.24||
+|[MoCo-v2](https://arxiv.org/abs/1911.05722)(unsupervised)|ResNet12|52.03+-0.33|72.94+-0.29|[link](https://1drv.ms/u/s!AkYSH77Z8H6qfF1I00KaGUTDiGI?e=ZgDbOb)|
+|[Exemplar-v2](https://arxiv.org/abs/2006.06606)|ResNet12|59.02+-0.24|77.23+-0.16|[link](https://1drv.ms/u/s!AkYSH77Z8H6qgQCsqADO7hHJN0w6?e=JSeH17)|
+|[PN+CL](https://arxiv.org/abs/2107.09242)|ResNet12|63.44+-0.44|79.42+-0.06|[link](https://1drv.ms/u/s!AkYSH77Z8H6qf5eh7VTlClM2c2k?e=Az19Gp)|
+|[COSOC](https://arxiv.org/abs/2107.07746)|ResNet12|69.28+0.49|85.16+-0.42|[link](https://1drv.ms/u/s!AkYSH77Z8H6qfYEYSIpQp0iJQRE?e=S3zaLY)|
 
 
 ## General Guide
@@ -69,7 +69,7 @@ pip install -r requirements.txt
 
 ### running an implemented few-shot model
 
-1. Downloading Datasets (other datasets uploaded soon):
+1. Downloading Datasets:
     - [miniImageNet](https://1drv.ms/u/s!AkYSH77Z8H6qa872NXTDnt-6bwY?e=XcKJgH), [miniImageNet-new(in COSOC)](https://1drv.ms/u/s!AkYSH77Z8H6qc5nj2gyXURV4XuU?e=cnUVvQ)
 2. Training (Except for Meta-baseline and COSOC):
     - Choose the corresponding configuration file in 'config'(e.g.`set_config_PN.py` for PN model), set  inside the parameter 'is_test' to False, set GPU ids (multi-GPU or not), dataset directory, logging dir as well as other parameters you would like to change.
@@ -107,15 +107,3 @@ It is quite simple to implement your own algorithm. most of algorithms only need
 
 #### Configuration
 **Need modification.** See [LightningCLI](https://pytorch-lightning.readthedocs.io/en/latest/common/lightning_cli.html) for how a yaml configuration file works. For each algorithm, there needs one specific configuration file, though most of the configurations are the same across algorithms. Thus it is convenient to copy one configuration and change it for a new algorithm.
-
-
-
-
-
-
-
-
-
-
-
-

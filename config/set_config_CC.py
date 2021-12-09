@@ -10,6 +10,7 @@ def config():
 
     # whether load pretrained model. This is is different from resume_from_checkpoint that loads everything from a breakpoint.
     config_dict["load_pretrained"] = False
+    
     #if training, set to False
     config_dict["is_test"] = False
     if config_dict["is_test"]:
@@ -34,6 +35,7 @@ def config():
         multi_gpu = False
     #The seed
     seed = 10
+    config_dict["seed"] = seed
 
     #The logging dirname: logdir/exp_name/
     log_dir = "../results/"
