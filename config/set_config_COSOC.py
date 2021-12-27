@@ -15,10 +15,12 @@ def config():
     if config_dict["is_test"]:
         #if testing, specify the total rounds of testing. Default: 5
         config_dict["num_test"] = 5
-        config_dict["load_pretrained"] = False
+        config_dict["load_pretrained"] = True
         #specify pretrained path for testing.
     if config_dict["load_pretrained"]:
-        config_dict["pre_trained_path"] = "../results/Exemplar/1000epoch/version_0/checkpoints/epoch=864-step=129749.ckpt"
+        config_dict["pre_trained_path"] = "../meta_learning_framework/results/miniImageNet/res12_PN_prob_crop/04_30_15_43_finetune_save_all_3crop_alpha0.5/encoder_net_epoch16.best"
+        # config_dict["pre_trained_path"] = "../results/Exemplar/1000epoch/version_0/checkpoints/epoch=864-step=129749.ckpt"
+        # config_dict["pre_trained_path"] = "../results/ProtoNet/test1gpu/version_0/checkpoints/epoch=59-step=29999.ckpt"
         #only load the backbone.
         config_dict["load_backbone_only"] = True
 
@@ -57,17 +59,18 @@ def config():
     if multi_gpu:
         trainer["accelerator"] = "ddp"
         trainer["sync_batchnorm"] = True
-        trainer["gpus"] = [1]
+        trainer["gpus"] = [2,3]
+        trainer["plugins"] = [{"class_path": "plugins.modified_DDPPlugin"}]
     else:
         trainer["accelerator"] = None
-        trainer["gpus"] = [1]
+        trainer["gpus"] = [2]
         trainer["sync_batchnorm"] = False
     
     # whether resume from a given checkpoint file
     trainer["resume_from_checkpoint"] = None # example: "../results/ProtoNet/version_11/checkpoints/epoch=2-step=1499.ckpt"
 
     # The maximum epochs to run
-    trainer["max_epochs"] = 60
+    trainer["max_epochs"] = 20
 
     # potential functionalities added to the trainer.
     trainer["callbacks"] = [{"class_path": "pytorch_lightning.callbacks.LearningRateMonitor", 
@@ -98,7 +101,7 @@ def config():
     per_gpu_val_batchsize = 1
     per_gpu_test_batchsize = 1
     way = 5
-    val_shot = 5
+    val_shot = 1
     num_query = 15
 
     ##################datamodule configuration###########################
@@ -144,11 +147,11 @@ def config():
     #that contains the model.
     model["backbone_name"] = "resnet12"
     #the initial learning rate
-    model["lr"] = 0.1*data["train_batchsize"]/128
+    model["lr"] = 0.005*data["train_batchsize"]/128
 
 
     #less important
-    model["SOC_params"] = {"num_patch": num_patch, "alpha": 0.8, "beta": 0.8}
+    model["SOC_params"] = {"num_patch": num_patch, "alpha": 1.0, "beta": 0.8}
     model["way"] = way
     model["val_shot"] = val_shot
     model["test_shot"] = test_shot

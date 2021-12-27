@@ -25,8 +25,6 @@ class SOC(nn.Module):
         data = data.permute(0, 1, 3, 2, 4, 5).squeeze(-1)
         features_train = data[:, :num_support_samples]
         features_test = data[:, num_support_samples:]
-        # print(features_train.shape)
-        # print(features_test.shape)
         #features_train:[B,M,c,h,w]
         #features_test:[B,N,c,h,w]
         M = features_train.shape[1]
@@ -44,7 +42,8 @@ class SOC(nn.Module):
             # with torch.no_grad():
             features_focus = []
             #[B,way,shot,c,h*w]
-            features_train = features_train.reshape([b,way,shot]+list(features_train.shape[2:]))
+            features_train = features_train.reshape([b,shot,way]+list(features_train.shape[2:]))
+            features_train = torch.transpose(features_train,1,2)
             count = 1.
             for l in range(patch_num-1):
                 features_train_ = list(torch.split(features_train, 1, dim=2))
