@@ -20,7 +20,7 @@ def config():
     if config_dict["load_pretrained"]:
         config_dict["pre_trained_path"] = "../results/meta_baseline_finetune/from_first_ex/version_3/checkpoints/epoch=53-step=5399.ckpt"
         #only load the backbone.
-        config_dict["load_backbone_only"] = False
+        config_dict["load_backbone_only"] = True
         
     #Specify the model name, which should match the name of file
     #that contains the LightningModule
