@@ -265,7 +265,7 @@ class NoAV_CL(BaseFewShotModule):
         return logits_PN, logits_con, con_label
     
     def training_step(self, batch, batch_idx):
-        logits_PN, logits_con, con_label = self.train_forward(batch, self.hparams.train_batch_size_per_gpu, self.hparams.way, self.hparams.train_shot)
+        logits_PN, logits_con, con_label = self.train_forward(batch, self.hparams.train_batch_size_per_gpu, self.hparams.train_way, self.hparams.train_shot)
         label = torch.unsqueeze(self.label, 0).repeat(self.hparams.train_batch_size_per_gpu, 1).reshape(-1).to(logits_PN.device)
         logits_PN = logits_PN.reshape(label.size(0),-1)
         loss_PN = F.cross_entropy(logits_PN, label)
