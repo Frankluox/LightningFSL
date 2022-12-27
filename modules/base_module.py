@@ -35,8 +35,8 @@ class BaseFewShotModule(LightningModule):
                         which should match the correspond 
                         file name in architectures.feature_extractor
             train_way: The number of classes within one training task.
-            val_way: The number of classes within one training task.
-            test_way: The number of classes within one training task.
+            val_way: The number of classes within one val task.
+            test_way: The number of classes within one testing task.
             train_shot: The number of samples within each few-shot 
                         support class during training. 
                         For meta-learning only.
@@ -64,9 +64,9 @@ class BaseFewShotModule(LightningModule):
         super().__init__()
         self.save_hyperparameters()
         self.backbone = get_backbone(backbone_name, **backbone_kwargs)
-        self.label = torch.arange(way, dtype=torch.int8).repeat(num_query)
-        self.label = self.label.type(torch.LongTensor).reshape(-1)
-
+        for mode in ["train","val", "test"]:
+            way = getattr(self.hparams, f"{mode}_way")
+            setattr(self, f"{mode}_label", torch.arange(way, dtype=torch.int8).repeat(num_query).type(torch.LongTensor).reshape(-1))
         self.set_metrics()
 
     def train_forward(self, batch):
@@ -109,7 +109,7 @@ class BaseFewShotModule(LightningModule):
 
         way = getattr(self.hparams, f"{mode}_way")
         logits = foward_function(batch, batch_size_per_gpu,way, shot)
-
+        label = getattr(self, f"{mode}_label")
         label = torch.unsqueeze(self.label, 0).repeat(batch_size_per_gpu, 1).reshape(-1).to(logits.device)
         logits = logits.reshape(label.size(0),-1)
         
