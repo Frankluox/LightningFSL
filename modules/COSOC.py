@@ -11,7 +11,9 @@ class COSOC(BaseFewShotModule):
         num_classes: int = 64,
         scale_cls: float = 10.,
         backbone_name: str = "resnet12",      
-        way: int = 5,
+        train_way: int = 5,
+        val_way: int = 5,
+        test_way: int = 5,
         val_shot: int = 5,
         test_shot: int = 5,
         num_query: int = 15,
@@ -35,7 +37,9 @@ class COSOC(BaseFewShotModule):
             backbone_name: The name of the feature extractor, 
                         which should match the correspond 
                         file name in architectures.feature_extractor
-            way: The number of classes within one task.
+            train_way: The number of classes within one training task.
+            val_way: The number of classes within one val task.
+            test_way: The number of classes within one testing task.
             val_shot: The number of samples within each few-shot 
                     support class during validation.
             test_shot: The number of samples within each few-shot 
@@ -57,7 +61,7 @@ class COSOC(BaseFewShotModule):
             backbone_kwargs: The parameters for creating backbone network.
         """
         super().__init__(
-            backbone_name=backbone_name, way=way, val_shot=val_shot,
+            backbone_name=backbone_name, train_way=train_way, val_way=val_way, test_way=test_way, val_shot=val_shot,
             test_shot=test_shot, num_query=num_query, 
             val_batch_size_per_gpu=val_batch_size_per_gpu, test_batch_size_per_gpu=test_batch_size_per_gpu,
             lr=lr, weight_decay=weight_decay, decay_scheduler=decay_scheduler, optim_type=optim_type,
