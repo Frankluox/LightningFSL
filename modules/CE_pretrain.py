@@ -42,8 +42,8 @@ class CE_Pretrainer(BaseFewShotModule):
                         which should match the correspond 
                         file name in architectures.feature_extractor
             train_way: The number of classes within one training task.
-            val_way: The number of classes within one training task.
-            test_way: The number of classes within one training task.
+            val_way: The number of classes within one val task.
+            test_way: The number of classes within one testing task.
             val_shot: The number of samples within each few-shot 
                     support class during validation.
             test_shot: The number of samples within each few-shot 
