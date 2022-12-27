@@ -82,9 +82,9 @@ class FewShotDataModule(LightningDataModule):
         self.train_num_task_per_epoch = train_num_task_per_epoch
         self.val_num_task = val_num_task
         self.test_num_task = test_num_task
-        self.train_way = train_way,
-        self.val_way = val_way,
-        self.test_way = test_way,
+        self.train_way = train_way
+        self.val_way = val_way
+        self.test_way = test_way
         self.train_shot = train_shot
         self.val_shot = val_shot
         self.test_shot = test_shot
