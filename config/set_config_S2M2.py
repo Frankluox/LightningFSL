@@ -103,7 +103,8 @@ def config():
     #less important
     per_gpu_val_batchsize = 1
     per_gpu_test_batchsize = 1
-    way = 5
+    val_way = 5
+    test_way = 5
     val_shot = 5
     num_query = 15
 
@@ -137,7 +138,8 @@ def config():
     data["test_shot"] = test_shot
     data["val_num_workers"] = 8
     data["is_DDP"] = True if multi_gpu else False
-    data["way"] = way
+    data["val_way"] = val_way
+    data["test_way"] = test_way
     data["val_shot"] = val_shot
     data["num_query"] = num_query
     data["drop_last"] = False
@@ -162,7 +164,8 @@ def config():
     model["ft_epochs"] = 100
     model["ft_lr"] = 0.1
     model["ft_wd"] = 0.001
-    model["way"] = way
+    model["val_way"] = val_way
+    model["test_way"] = test_way
     model["val_shot"] = val_shot
     model["test_shot"] = test_shot
     model["num_query"] = num_query
@@ -173,6 +176,7 @@ def config():
     model["decay_scheduler"] = None
     model["optim_type"] = "adam"
     model["num_classes"] = 64
+    model["is_test"] = config_dict["is_test"]
 
     
 
