@@ -53,7 +53,9 @@ class FewShotDataModule(LightningDataModule):
         train_num_task_per_epoch: Optional[int] = 1000,
         val_num_task: int = 600,
         test_num_task: int = 2000,
-        way: int = 5,
+        train_way: Optional[int] = 5,
+        val_way: int = 5,
+        test_way: int = 5,
         train_shot: Optional[int] = 5,
         val_shot: int = 5,
         test_shot: int = 5,
@@ -80,7 +82,9 @@ class FewShotDataModule(LightningDataModule):
         self.train_num_task_per_epoch = train_num_task_per_epoch
         self.val_num_task = val_num_task
         self.test_num_task = test_num_task
-        self.way = way
+        self.train_way = train_way,
+        self.val_way = val_way,
+        self.test_way = test_way,
         self.train_shot = train_shot
         self.val_shot = val_shot
         self.test_shot = test_shot
@@ -128,7 +132,7 @@ class FewShotDataModule(LightningDataModule):
         if self.is_meta:
             self.train_batch_sampler = CategoriesSampler(
                 self.train_dataset.label, self.train_num_task_per_epoch,
-                self.way, self.train_shot+self.num_query, self.train_batch_size, 
+                self.train_way, self.train_shot+self.num_query, self.train_batch_size, 
                 self.is_DDP, self.drop_last
                 )
         elif self.is_DDP:
@@ -136,13 +140,13 @@ class FewShotDataModule(LightningDataModule):
 
         self.val_batch_sampler = CategoriesSampler(
             self.val_dataset.label, self.val_num_task,
-            self.way, self.val_shot+self.num_query, self.val_batch_size, 
+            self.val_way, self.val_shot+self.num_query, self.val_batch_size, 
             self.is_DDP, self.drop_last
             )
 
         self.test_batch_sampler = CategoriesSampler(
             self.test_dataset.label, self.test_num_task,
-            self.way, self.test_shot+self.num_query, self.test_batch_size, 
+            self.test_way, self.test_shot+self.num_query, self.test_batch_size, 
             self.is_DDP, self.drop_last
             )
         
