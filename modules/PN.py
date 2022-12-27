@@ -14,7 +14,9 @@ class ProtoNet(BaseFewShotModule):
         scale_cls: float = 10.,
         normalize: bool = True,
         backbone_name: str = "resnet12",      
-        way: int = 5,
+        train_way: int = 5,
+        val_way: int = 5,
+        test_way: int = 5,
         train_shot: int = 5,
         val_shot: int = 5,
         test_shot: int = 5,
@@ -40,7 +42,9 @@ class ProtoNet(BaseFewShotModule):
             backbone_name: The name of the feature extractor, 
                         which should match the correspond 
                         file name in architectures.feature_extractor
-            way: The number of classes within one task.
+            train_way: The number of classes within one training task.
+            val_way: The number of classes within one training task.
+            test_way: The number of classes within one training task.
             train_shot: The number of samples within each few-shot 
                         support class during training. 
                         For meta-learning only.
@@ -66,7 +70,7 @@ class ProtoNet(BaseFewShotModule):
             backbone_kwargs: The parameters for creating backbone network.
         """
         super().__init__(
-            backbone_name, way, train_shot, val_shot,
+            backbone_name, train_way, val_way, test_way, train_shot, val_shot,
             test_shot, num_query, train_batch_size_per_gpu,
             val_batch_size_per_gpu, test_batch_size_per_gpu,
             lr, weight_decay, decay_scheduler, optim_type,
