@@ -11,7 +11,9 @@ class BaseFewShotModule(LightningModule):
     def __init__(
         self,
         backbone_name: str = "resnet12",
-        way: int = 5,
+        train_way: int = 5,
+        val_way: int = 5,
+        test_way: int = 5,
         train_shot: Optional[int] = None,
         val_shot: int = 5,
         test_shot: int = 5,
@@ -32,7 +34,9 @@ class BaseFewShotModule(LightningModule):
             backbone_name: The name of the feature extractor, 
                         which should match the correspond 
                         file name in architectures.feature_extractor
-            way: The number of classes within one task.
+            train_way: The number of classes within one training task.
+            val_way: The number of classes within one training task.
+            test_way: The number of classes within one training task.
             train_shot: The number of samples within each few-shot 
                         support class during training. 
                         For meta-learning only.
@@ -102,11 +106,10 @@ class BaseFewShotModule(LightningModule):
         foward_function = getattr(self, f"{flag}_forward")
         batch_size_per_gpu = getattr(self.hparams, f"{mode}_batch_size_per_gpu")
         shot = getattr(self.hparams, f"{mode}_shot")
-        # label
-        # print(batch[0].shape)
-        logits = foward_function(batch, batch_size_per_gpu,self.hparams.way, shot)
-        # import pdb
-        # pdb.set_trace()
+
+        way = getattr(self.hparams, f"{mode}_way")
+        logits = foward_function(batch, batch_size_per_gpu,way, shot)
+
         label = torch.unsqueeze(self.label, 0).repeat(batch_size_per_gpu, 1).reshape(-1).to(logits.device)
         logits = logits.reshape(label.size(0),-1)
         
