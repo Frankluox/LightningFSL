@@ -110,7 +110,7 @@ class BaseFewShotModule(LightningModule):
         way = getattr(self.hparams, f"{mode}_way")
         logits = foward_function(batch, batch_size_per_gpu,way, shot)
         label = getattr(self, f"{mode}_label")
-        label = torch.unsqueeze(self.label, 0).repeat(batch_size_per_gpu, 1).reshape(-1).to(logits.device)
+        label = torch.unsqueeze(label, 0).repeat(batch_size_per_gpu, 1).reshape(-1).to(logits.device)
         logits = logits.reshape(label.size(0),-1)
         
         loss = F.cross_entropy(logits, label)
