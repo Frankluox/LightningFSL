@@ -14,6 +14,7 @@ class S2M2_R(BaseFewShotModule):
     """
     def __init__(
         self,
+        is_test: int = False,
         switch_epoch: int = 400,
         alpha: float = 2.0,
         num_classes: int = 64,
@@ -23,7 +24,9 @@ class S2M2_R(BaseFewShotModule):
         ft_lr: float = 0.1,
         ft_wd: float = 0.001,
         backbone_name: str = "resnet12",
-        way: int = 5,
+        train_way: int = 5,
+        val_way: int = 5,
+        test_way: int = 5,
         train_shot: Optional[int] = None,
         val_shot: int = 5,
         test_shot: int = 5,
@@ -41,7 +44,7 @@ class S2M2_R(BaseFewShotModule):
         **kwargs
     ) -> None:
         super().__init__(
-            backbone_name=backbone_name, way=way, val_shot=val_shot,
+            backbone_name=backbone_name, train_way=train_way, val_way=val_way, test_way=test_way, val_shot=val_shot,
             test_shot=test_shot, num_query=num_query, 
             val_batch_size_per_gpu=val_batch_size_per_gpu, test_batch_size_per_gpu=test_batch_size_per_gpu,
             lr=lr, weight_decay=weight_decay, decay_scheduler=decay_scheduler, optim_type=optim_type,
@@ -51,8 +54,12 @@ class S2M2_R(BaseFewShotModule):
         self.alpha = alpha
         self.rotate_classifier = nn.Linear(self.backbone.outdim, 4)
         self.cosine_classifier = CC_head(self.backbone.outdim, num_classes, scale_cls, learn_scale=False,normalize=False)
-        ft_CC_params = {"indim":self.backbone.outdim, "outdim":way, "scale_cls":scale_cls, "learn_scale":False, "normalize": False}
-        self.finetune_classifier = Finetuner(ft_batchsize, ft_epochs,ft_lr, ft_wd, way, "CC_head", ft_CC_params)
+        ft_CC_params = {"indim":self.backbone.outdim, "outdim":train_way, "scale_cls":scale_cls, "learn_scale":False, "normalize": False}
+        if is_test:
+            self.finetune_classifier = Finetuner(ft_batchsize, ft_epochs,ft_lr, ft_wd, test_way, "CC_head", ft_CC_params)
+        else:
+            self.finetune_classifier = Finetuner(ft_batchsize, ft_epochs,ft_lr, ft_wd, val_way, "CC_head", ft_CC_params)
+        
         self.rotate_labels = torch.tensor([0,1,2,3])
 
     def train_forward(self, batch):
