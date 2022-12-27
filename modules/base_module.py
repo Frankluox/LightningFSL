@@ -11,7 +11,7 @@ class BaseFewShotModule(LightningModule):
     def __init__(
         self,
         backbone_name: str = "resnet12",
-        train_way: int = 5,
+        train_way: Optional[int] = 5,
         val_way: int = 5,
         test_way: int = 5,
         train_shot: Optional[int] = None,
